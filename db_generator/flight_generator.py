@@ -39,7 +39,8 @@ def generateEntries(conn):
         airport_ids.append(row[0])
 
 
-    for i in range(1,100000):
+    for i in range(1,1000000):
+        print (i)
         bag = float(random.randint(1500, 10000))/100
         seat = float(random.randint(1500,10000))/100
         miles = random.randint(100, 5000)
@@ -47,7 +48,7 @@ def generateEntries(conn):
         dest_id = random.choice(airport_ids)
         ddate = (random.choice(months) + ' ' + str(random.randint(1, 31))+ ',' +
                  str(random.randint(2016, 2018)))
-        dtime = (str(random.randint(1, 12))+':'+str(random.randint(0, 59))+' '+
+        dtime = (str(random.randint(1, 12))+':'+str(random.randint(0, 59)).zfill(2)+' '+
                  random.choice(['am', 'pm']))
         price = float(random.randint(10000, 120000))/100
         while dest_id == src_id:
@@ -56,7 +57,7 @@ def generateEntries(conn):
                 '(id, src_id, dest_id, departure_date, departure_time, price, avail_seats, bag_price, seat_price, miles) '
               'values '
                 '('+str(i)+', '+str(src_id)+', '+str(dest_id)+', "'+ddate+'", "'+dtime+'", '
-                ' '+str(price)+', "'+seat_list+'", '+str(bag)+', '+str(seat)+', '+str(miles)+');')
+                ' '+'{:.2f}'.format(price)+', "'+seat_list+'", '+str(bag)+', '+str(seat)+', '+str(miles)+');')
         executeSQL(conn, qs)
     conn.commit()
 

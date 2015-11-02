@@ -34,7 +34,7 @@ public class SearchFlowView extends JPanel {
     protected JButton search_submit_button;
     protected JButton[] booking_buttons = {};
 
-    private JComboBox src_select, dest_select;
+    protected JComboBox src_select, dest_select;
     private JTextField date_select;
     private JSpinner time_select;
     private JTextArea results_area;
@@ -138,6 +138,7 @@ public class SearchFlowView extends JPanel {
             content_pane.add(flight_panel, gbc);
             gbc.gridy++;
         }
+
         return content_pane;
     }
 

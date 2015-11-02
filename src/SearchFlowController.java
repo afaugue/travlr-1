@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /****************************************************************************
 * Name:    SearchContoller
@@ -54,18 +56,34 @@ public class SearchFlowController {
             }
         });
 
+        /*search_view.src_select.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                pullShortName((String)search_view.src_select.getSelectedItem());
+            }
+        });*/
+
         for (int i = 0; i < search_view.booking_buttons.length; i++){
             final int j = i;
             System.out.println("Adding event to button "+Integer.toString(j));
             search_view.booking_buttons[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent actionEvent) {
-                    System.out.println("Starting Bookingsflow");
                     parent_frame.startBookingsFlow(search_view.getFlightData().get(j));
                 }
             });
         }
     }
 
+    private String pullShortName(String full_text){
+        System.out.println(full_text);
+        String pattern = ".*\\((\\w+)\\)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(full_text);
+        if (m.find()){
+            return m.group(1);
+        } else {
+            return "";
+        }
+    }
     private void setNewDisplay(String new_view) {
         parent_container.remove(search_view);
         search_view.setDisplay(new_view);
@@ -75,8 +93,9 @@ public class SearchFlowController {
     }
 
     private void performBasicSearch(){
-        String src = search_view.getSrc();
-        String dest = search_view.getDest();
+        System.out.println("Performing Basic Search");
+        String src = pullShortName(search_view.getSrc());
+        String dest = pullShortName(search_view.getDest());
         String date = search_view.getDate();
         String time = search_view.getTime();
         search_model = new SearchModel(src, dest, date, time);
