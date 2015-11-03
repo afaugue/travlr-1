@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +24,6 @@ public class SearchFlowController {
     String[] locations;
     ArrayList<Map> flight_data;
     Boolean needs_return_flight = false;
-    Flight individual_flight;
 
     /*******************************************************************
     * Name:    SearchFlowController()    :   Constructor               *
@@ -108,14 +106,6 @@ public class SearchFlowController {
         System.out.print(needs_return_flight);
     }
 
-    private void setNewDisplay(String new_view) {
-        parent_container.remove(search_view);
-        search_view.setDisplay(new_view);
-        parent_container.add(search_view);
-        parent_container.validate();
-        parent_container.repaint();
-    }
-
     private void performBasicSearch(){
         System.out.println("Performing Basic Search");
         String src = pullShortName(search_view.getSrc());
@@ -128,17 +118,4 @@ public class SearchFlowController {
         search_view.setDisplay("list");
         addBookingControls();
     }
-
-    /** Getter/Setter functions for updating individual fields of a Search object. */
-    public void getSearchDestination( SearchModel search_model ){}
-    public void setSeachDestination() {}
-    public void getSearchSource() {}
-    public void setSeachSource(String src) {}
-    public void getTime() {}
-	public void setTime() {}
-	public void getDate() {}
-	public void setDate() {}
-	public void getAvailableSeats() {}
-	public void setAvailableSeats() {}
-
 }

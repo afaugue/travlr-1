@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,9 +13,7 @@ import java.util.Map;
 *              SearchFlowController().                                 *
 ************************************************************************/
 public class SearchModel {
-    String src_location, dest_location, date, time, query;
-    String[] destination;
-    String[] departure;
+    String src_location, dest_location, date, time;
     int availableSeat;
     String price;
 
@@ -41,6 +38,13 @@ public class SearchModel {
         this.time = t;
     }
 
+    /********************************************************************
+     * Query Building Methods                                           *
+     * Purpose: These methods build a database query, execute using     *
+     *              queryDB method, and send the ResultSet object to    *
+     *              the proper handler. Returns results to Controller.  *
+     ********************************************************************/
+
     public String[] getAllAirports(){
         String query_string = ("select short_name, long_name from airports;");
         ResultSet result_set = queryDB(query_string);
@@ -48,13 +52,6 @@ public class SearchModel {
         return airport_list;
     }
 
-    /********************************************************************
-     * Name:    executeQuery()      :   Method                          *
-     * Purpose: Executes a database query using the Search objects      *
-     *              query property.                                     *
-     * Returns:                                                         *
-     *      String[] -  A list of strings retrieved by the query.       *
-     ********************************************************************/
     public ArrayList<Map> getFlightData(){
         String query_string = ("select f.id, a.short_name, a.long_name, b.short_name, b.long_name, f.dt, f.price "+
                                 "from flights as f "+
@@ -66,6 +63,12 @@ public class SearchModel {
         ArrayList<Map> flights = handleFlightQuery(result_set);
         return flights;
     }
+
+
+    /********************************************************************************
+     * Query Handlers                                                               *
+     * Purpose:     These methods extract and return data from various ResultSets.  *
+     ********************************************************************************/
 
     private String[] handleListQuery(ResultSet result_set) {
 
@@ -128,6 +131,10 @@ public class SearchModel {
         return null;
     }
 
+    /****************************************************************************
+     * Name:    queryDB()                                                       *
+     * Purpose: Utility Method to connect to SQLite Databse, returns ResultSet. *
+     ****************************************************************************/
     private ResultSet queryDB(String query_string) {
         Connection connection = null;
         ResultSet result_set = null;
@@ -154,13 +161,4 @@ public class SearchModel {
         }
         return null;
     }
-
-    public SearchModel(String dates, String times, String[] destinations, String[] departures,
-                       int seats, String prices){}
-    /**
-     * users can select an advanced search that will specify specific price and seating
-     * preconditon: more advanced fields by user to minimize search result
-     * postcondition: returns available flights from database based on user search
-     */
-
 }

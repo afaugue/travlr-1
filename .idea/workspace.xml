@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="205a5001-0432-4913-ad8a-cc409053483e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SearchFlowController.java" afterPath="$PROJECT_DIR$/src/SearchFlowController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SearchFlowView.java" afterPath="$PROJECT_DIR$/src/SearchFlowView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db_generator/.idea/workspace.xml" afterPath="$PROJECT_DIR$/db_generator/.idea/workspace.xml" />
     </list>
     <ignored path="travlr.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchFlowController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SearchFlowController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/SearchFlowController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="89" column="27" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.19031142">
+              <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
               <folding>
                 <element signature="e#2176#2357#0" expanded="true" />
                 <element signature="e#2356#2357#0" expanded="true" />
@@ -88,32 +86,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchFlowView.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SearchFlowView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SearchFlowView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60504204">
-              <caret line="93" column="36" selection-start-line="93" selection-start-column="36" selection-end-line="93" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="e#2453#2454#0" expanded="true" />
                 <element signature="e#2493#2494#0" expanded="true" />
-                <element signature="e#7950#7951#0" expanded="true" />
-                <element signature="e#7980#7981#0" expanded="true" />
-                <element signature="e#8128#8129#0" expanded="true" />
-                <element signature="e#8159#8160#0" expanded="true" />
-                <element signature="e#8209#8210#0" expanded="true" />
-                <element signature="e#8249#8250#0" expanded="true" />
-                <element signature="e#8294#8295#0" expanded="true" />
-                <element signature="e#8328#8329#0" expanded="true" />
-                <element signature="e#8723#8724#0" expanded="true" />
-                <element signature="e#8753#8754#0" expanded="true" />
-                <element signature="e#8918#8919#0" expanded="true" />
-                <element signature="e#8950#8951#0" expanded="true" />
-                <element signature="e#9118#9119#0" expanded="true" />
-                <element signature="e#9150#9151#0" expanded="true" />
-                <element signature="e#9293#9294#0" expanded="true" />
-                <element signature="e#9325#9326#0" expanded="true" />
-                <element signature="e#9359#9360#0" expanded="true" />
-                <element signature="e#9389#9390#0" expanded="true" />
+                <element signature="e#7987#7988#0" expanded="true" />
+                <element signature="e#8017#8018#0" expanded="true" />
+                <element signature="e#8165#8166#0" expanded="true" />
+                <element signature="e#8196#8197#0" expanded="true" />
+                <element signature="e#8246#8247#0" expanded="true" />
+                <element signature="e#8286#8287#0" expanded="true" />
+                <element signature="e#8331#8332#0" expanded="true" />
+                <element signature="e#8365#8366#0" expanded="true" />
+                <element signature="e#8760#8761#0" expanded="true" />
+                <element signature="e#8790#8791#0" expanded="true" />
+                <element signature="e#8955#8956#0" expanded="true" />
+                <element signature="e#8987#8988#0" expanded="true" />
+                <element signature="e#9155#9156#0" expanded="true" />
+                <element signature="e#9187#9188#0" expanded="true" />
+                <element signature="e#9330#9331#0" expanded="true" />
+                <element signature="e#9362#9363#0" expanded="true" />
+                <element signature="e#9396#9397#0" expanded="true" />
+                <element signature="e#9426#9427#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -135,8 +134,8 @@
         <option value="$PROJECT_DIR$/src/BookingsFlowController.java" />
         <option value="$PROJECT_DIR$/src/SearchModel.java" />
         <option value="$PROJECT_DIR$/src/BookingsFlowView.java" />
-        <option value="$PROJECT_DIR$/src/SearchFlowController.java" />
         <option value="$PROJECT_DIR$/src/SearchFlowView.java" />
+        <option value="$PROJECT_DIR$/src/SearchFlowController.java" />
       </list>
     </option>
   </component>
@@ -494,12 +493,12 @@
       <created>1446501341480</created>
       <option name="number" value="Default" />
       <updated>1446501341480</updated>
-      <workItem from="1446501344380" duration="14005000" />
+      <workItem from="1446501344380" duration="15044000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14005000" />
+    <option name="totallyTimeSpent" value="15044000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="759" y="52" width="1161" height="1028" extended-state="4" />
@@ -508,7 +507,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34763947" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34763947" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -522,7 +521,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21524663" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32939914" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32939914" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -588,10 +587,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/SearchFlowController.java">
+    <entry file="file://$PROJECT_DIR$/src/SearchFlowView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="89" column="27" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="27" />
+          <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2453#2454#0" expanded="true" />
+            <element signature="e#2493#2494#0" expanded="true" />
+            <element signature="e#7987#7988#0" expanded="true" />
+            <element signature="e#8017#8018#0" expanded="true" />
+            <element signature="e#8165#8166#0" expanded="true" />
+            <element signature="e#8196#8197#0" expanded="true" />
+            <element signature="e#8246#8247#0" expanded="true" />
+            <element signature="e#8286#8287#0" expanded="true" />
+            <element signature="e#8331#8332#0" expanded="true" />
+            <element signature="e#8365#8366#0" expanded="true" />
+            <element signature="e#8760#8761#0" expanded="true" />
+            <element signature="e#8790#8791#0" expanded="true" />
+            <element signature="e#8955#8956#0" expanded="true" />
+            <element signature="e#8987#8988#0" expanded="true" />
+            <element signature="e#9155#9156#0" expanded="true" />
+            <element signature="e#9187#9188#0" expanded="true" />
+            <element signature="e#9330#9331#0" expanded="true" />
+            <element signature="e#9362#9363#0" expanded="true" />
+            <element signature="e#9396#9397#0" expanded="true" />
+            <element signature="e#9426#9427#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/SearchFlowController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.19031142">
+          <caret line="110" column="22" selection-start-line="110" selection-start-column="22" selection-end-line="110" selection-end-column="22" />
           <folding>
             <element signature="e#2176#2357#0" expanded="true" />
             <element signature="e#2356#2357#0" expanded="true" />
@@ -601,35 +630,6 @@
             <element signature="e#2795#2796#0" expanded="true" />
             <element signature="e#3068#3297#0" expanded="true" />
             <element signature="e#3296#3297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/SearchFlowView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60504204">
-          <caret line="93" column="36" selection-start-line="93" selection-start-column="36" selection-end-line="93" selection-end-column="36" />
-          <folding>
-            <element signature="e#2453#2454#0" expanded="true" />
-            <element signature="e#2493#2494#0" expanded="true" />
-            <element signature="e#7950#7951#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-            <element signature="e#8128#8129#0" expanded="true" />
-            <element signature="e#8159#8160#0" expanded="true" />
-            <element signature="e#8209#8210#0" expanded="true" />
-            <element signature="e#8249#8250#0" expanded="true" />
-            <element signature="e#8294#8295#0" expanded="true" />
-            <element signature="e#8328#8329#0" expanded="true" />
-            <element signature="e#8723#8724#0" expanded="true" />
-            <element signature="e#8753#8754#0" expanded="true" />
-            <element signature="e#8918#8919#0" expanded="true" />
-            <element signature="e#8950#8951#0" expanded="true" />
-            <element signature="e#9118#9119#0" expanded="true" />
-            <element signature="e#9150#9151#0" expanded="true" />
-            <element signature="e#9293#9294#0" expanded="true" />
-            <element signature="e#9325#9326#0" expanded="true" />
-            <element signature="e#9359#9360#0" expanded="true" />
-            <element signature="e#9389#9390#0" expanded="true" />
           </folding>
         </state>
       </provider>

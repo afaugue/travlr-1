@@ -25,19 +25,23 @@ import java.util.*;
 
 **********************************************************************/
 public class SearchFlowView extends JPanel {
+    // Global Variable Init of Class Base Properties
     private String display;
     private String[] airports;
     private ArrayList<Map> flight_data;
-    private String src, dest, time, date, results;
+    private String src, dest, time, date;
     private JPanel search_pane, content_pane;
 
+    // Interactive Elements to be Accessed by Controller
     protected JButton search_submit_button, one_way_btn, two_way_btn;
     protected JButton[] booking_buttons = {};
 
-    protected JComboBox src_select, dest_select;
+    // Global Selection Variables
+    private JComboBox src_select, dest_select;
     private JTextField date_select;
     private JSpinner time_select;
-    private JTextArea results_area;
+
+    // Global Border Variables
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
     private Border inner_border = BorderFactory.createCompoundBorder(
@@ -59,9 +63,10 @@ public class SearchFlowView extends JPanel {
      * Name:    displayView()   :   Method                              *
      * Purpose:                                                         *
      ********************************************************************/
-    public void updateView(){
+    protected void updateView(){
         this.removeAll();
 
+        // Determine Displays to Add.
         if ( this.display == "default" ){
             this.add( searchView() );
         } else if ( this.display == "calendar" ){
@@ -83,6 +88,7 @@ public class SearchFlowView extends JPanel {
     private JPanel searchView() {
         search_pane = new JPanel();
 
+        // Round-Trip vs One-Way Toggle
         one_way_btn = new JButton("One-Way");
         two_way_btn = new JButton("Two-Way");
         one_way_btn.setActionCommand("one");
@@ -90,21 +96,24 @@ public class SearchFlowView extends JPanel {
         one_way_btn.setEnabled(false);
         one_way_btn.setBackground(Color.BLUE);
 
+        // Add Trip Toggle Buttons to Panel
         search_pane.add(one_way_btn);
         search_pane.add(two_way_btn);
 
+        // Init Search Input Displays
         src_select = new JComboBox(this.airports);
         dest_select = new JComboBox(this.airports);
         date_select = new JTextField(10);
         time_select = new JSpinner();
-        results_area = new JTextArea();
         search_submit_button = new JButton("submit");
 
+        // Add Input Displays to Panel
         search_pane.add(src_select);
         search_pane.add(dest_select);
         search_pane.add(date_select);
         search_pane.add(time_select);
         search_pane.add(search_submit_button);
+
         return search_pane;
     }
 
@@ -136,6 +145,8 @@ public class SearchFlowView extends JPanel {
 
             // Filter Results by Date
             Boolean date_filter = dateFilter(data.get("datetime"));
+
+            // Create Displays for Matching Flights
             if (date_filter){
                 content_pane.add( generateFlightListing(data, i), gbc);
                 matching_values = true;
@@ -154,17 +165,23 @@ public class SearchFlowView extends JPanel {
 
     private JPanel generateFlightListing(Map<String, String> data_map, int position){
         JPanel flight_panel = new JPanel();
+
+        // Create Information Displays
         JLabel flight_id = new JLabel(data_map.get("flight_id"));
         JLabel airport_info = new JLabel(data_map.get("source") + " --> " + data_map.get("destination"));
         JLabel date_info = new JLabel(data_map.get("datetime"));
         JLabel price_info = new JLabel("$"+data_map.get("price"));
         JButton book_btn = new JButton("Book Flight");
         booking_buttons[position] = book_btn;
+
+        // Provide Information Spacing
         flight_id.setBorder(empty_border);
         airport_info.setBorder(empty_border);
         date_info.setBorder(empty_border);
         price_info.setBorder(empty_border);
         book_btn.setBorder(empty_border);
+
+        // Add Individual Information Dispalys to Panel
         flight_panel.add(flight_id);
         flight_panel.add(airport_info);
         flight_panel.add(date_info);
@@ -192,6 +209,40 @@ public class SearchFlowView extends JPanel {
         }
     }
 
+    /********************************************************************
+     *  Utility Functions                                               *
+     ********************************************************************/
+    protected GridBagConstraints getConstraints(){
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        return gbc;
+    }
+
+    private Date parseDate(String input_date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        Date parsed_date = null;
+        try {
+            parsed_date = sdf.parse(input_date);
+        } catch (ParseException e){}
+        return parsed_date;
+    }
+
+    private Calendar dateToCalendar(Date d){
+        if (d != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            return cal;
+        } else {
+            return null;
+        }
+    }
+
+
+    /********************************************************************
+     *  Getter and Setter Functions.                                    *
+     ********************************************************************/
     public String getDisplay() {
         return display;
     }
@@ -215,9 +266,6 @@ public class SearchFlowView extends JPanel {
 
     public void setFlightData(ArrayList<Map> flight_list) {
         this.flight_data = flight_list;
-        for(int i=0; i<flight_data.size(); i++){
-            this.results_area.append(flight_data.get(i).toString()+"\n");
-        }
     }
 
     public String getSrc() {
@@ -255,71 +303,4 @@ public class SearchFlowView extends JPanel {
     public void setDate(String date) {
         this.date = date;
     }
-
-    public String getResults() {
-        return results;
-    }
-
-    public void setResults(String results) {
-        this.results = results;
-        this.results_area.setText(results);
-    }
-
-    protected GridBagConstraints getConstraints(){
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-        return gbc;
-    }
-
-    private Date parseDate(String input_date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
-        Date parsed_date = null;
-        try {
-            parsed_date = sdf.parse(input_date);
-        } catch (ParseException e){}
-        return parsed_date;
-    }
-
-    private Calendar dateToCalendar(Date d){
-        if (d != null){
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(d);
-            return cal;
-        } else {
-            return null;
-        }
-    }
 }
-
-/**
-    public static void setCalander(){..}
-    /** Modifies the Containers to display items in a calander
-     *  pre:  flight_list
-     *  post: view_type = 'calendar'
-     /
-
-    public static void zoomCurrentView(){..}
-    /** Changes the level depending on view_type, allows view to cycle between
-     *  day, week, month.
-     *  pre: view_type, zoom_level
-     *  post: new zoom_level
-     /
-
-    public static void setList(){..}
-    /**
-     * Modifies the Container to displayitems in a List
-     * pre: flight_list
-     * post: view_type = 'list'
-     /
-
-    public static void displayHover(){..}
-    /**
-     * Creates a new SearchView for a subset of flight_list.
-     * SearchView is of view_type 'list',
-     * This view overlays over the original view and can easily be quit to return to original view.
-     * pre: flight_list
-     * post: none
-     /
-*/
