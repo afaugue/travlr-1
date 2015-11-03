@@ -56,16 +56,13 @@ public class SearchModel {
      *      String[] -  A list of strings retrieved by the query.       *
      ********************************************************************/
     public ArrayList<Map> getFlightData(){
-        System.out.println("QueryingDB");
-        String query_string = ("select f.id, a.short_name, a.long_name, b.short_name, b.long_name, f.departure_date, f.departure_time, f.price "+
+        String query_string = ("select f.id, a.short_name, a.long_name, b.short_name, b.long_name, f.dt, f.price "+
                                 "from flights as f "+
                                 "inner join airports as a on a.id = f.src_id "+
                                 "inner join airports as b on b.id = f.dest_id "+
                                 "where a.short_name='"+src_location+"' and " +
                                 "b.short_name='"+dest_location+"';");
-        System.out.println(query_string);
         ResultSet result_set = queryDB(query_string);
-        System.out.println("Finished Querying");
         ArrayList<Map> flights = handleFlightQuery(result_set);
         return flights;
     }
@@ -78,11 +75,8 @@ public class SearchModel {
             List<String> items = new ArrayList();
 
             while (result_set.next()) {
-                //for (int i=1; i<=columns; i++){
                 items.add(result_set.getObject(2).toString()+" ("+
                         result_set.getObject(1).toString()+")");
-                //items.add(result_set.getObject(1).toString());
-                //}
             }
 
             String[] string_array = new String[ items.size() ];
@@ -105,19 +99,16 @@ public class SearchModel {
             ResultSetMetaData md = result_set.getMetaData();
             int columns = md.getColumnCount();
             ArrayList<Map> flight_list = new ArrayList();
-            System.out.println(md);
 
             while (result_set.next()){
-                System.out.println(result_set.toString());
                 Map<String,String> this_flight = new HashMap();
                 this_flight.put("flight_id", result_set.getObject(1).toString());
                 this_flight.put("source", result_set.getObject(2).toString());
                 this_flight.put("source_long", result_set.getObject(3).toString());
                 this_flight.put("destination", result_set.getObject(4).toString());
                 this_flight.put("destination_long", result_set.getObject(5).toString());
-                this_flight.put("date", result_set.getObject(6).toString());
-                this_flight.put("time", result_set.getObject(7).toString());
-                this_flight.put("price", result_set.getObject(8).toString());
+                this_flight.put("datetime", result_set.getObject(6).toString());
+                this_flight.put("price", result_set.getObject(7).toString());
 
                 System.out.println(this_flight.toString());
                 flight_list.add(this_flight);

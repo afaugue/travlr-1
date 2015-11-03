@@ -1,4 +1,5 @@
 import random
+from datetime import timedelta, datetime
 
 def establishTable(conn):
     qs = ('drop table flights')
@@ -10,8 +11,7 @@ def establishTable(conn):
           (id INT,
            src_id INT,
            dest_id INT,
-           departure_date VARCHAR(20),
-           departure_time VARCHAR(10),
+           dt DATETIME,
            price DECIMAL(10,2),
            avail_seats VARCHAR(400),
            bag_price DECIMAL(8,2),
@@ -28,7 +28,7 @@ def generateEntries(conn):
     seat_list = []
     for r in rows:
         for c in columns:
-            this_seat = c+str(r)
+            this_seat = str(r)+c
             seat_list.append(this_seat)
     seat_list = ','.join(seat_list)
 
@@ -39,24 +39,23 @@ def generateEntries(conn):
         airport_ids.append(row[0])
 
 
-    for i in range(1,1000000):
+    for i in range(1,100000):
         print (i)
         bag = float(random.randint(1500, 10000))/100
         seat = float(random.randint(1500,10000))/100
         miles = random.randint(100, 5000)
         src_id = random.choice(airport_ids)
         dest_id = random.choice(airport_ids)
-        ddate = (random.choice(months) + ' ' + str(random.randint(1, 31))+ ',' +
-                 str(random.randint(2016, 2018)))
-        dtime = (str(random.randint(1, 12))+':'+str(random.randint(0, 59)).zfill(2)+' '+
-                 random.choice(['am', 'pm']))
+        d1 = datetime.strptime('11/01/2015 01:30 PM', '%m/%d/%Y %I:%M %p')
+        d2 = datetime.strptime('11/01/2016 04:50 AM', '%m/%d/%Y %I:%M %p')
+        dt = random_date(d1, d2)
         price = float(random.randint(10000, 120000))/100
         while dest_id == src_id:
             dest_id = random.choice(airport_ids)
         qs = ('insert into flights '
-                '(id, src_id, dest_id, departure_date, departure_time, price, avail_seats, bag_price, seat_price, miles) '
+                '(id, src_id, dest_id, dt, price, avail_seats, bag_price, seat_price, miles) '
               'values '
-                '('+str(i)+', '+str(src_id)+', '+str(dest_id)+', "'+ddate+'", "'+dtime+'", '
+              '('+str(i)+', '+str(src_id)+', '+str(dest_id)+', "'+str(dt)+'", '
                 ' '+'{:.2f}'.format(price)+', "'+seat_list+'", '+str(bag)+', '+str(seat)+', '+str(miles)+');')
         executeSQL(conn, qs)
     conn.commit()
@@ -72,3 +71,13 @@ def executeSQL(conn, query_string):
         print "Error: "+str(e)
 
     return cursor
+
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime
+    objects.
+    """
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = random.randrange(int_delta)
+    return start + timedelta(seconds=random_second)

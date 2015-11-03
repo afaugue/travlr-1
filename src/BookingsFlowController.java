@@ -28,14 +28,14 @@ public class BookingsFlowController {
         parent_frame = pframe;
         parent_container = pcontain;
         booking_model = new BookingModel();
-        bookings_view = new BookingsFlowView();
+        bookings_view = new BookingsFlowView(individual_flight);
         parent_container.add(bookings_view, bookings_view.getConstraints());
-        bookings_view.setFlightData(this.individual_flight);
-        bookings_view.updateView();
-        addControls();
+        addReturnControl();
+        parent_container.revalidate();
+        parent_container.repaint();
     }
 
-    private void addControls(){
+    private void addReturnControl(){
         bookings_view.return_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 parent_frame.returnSearchFlow();

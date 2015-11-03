@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
-import sqlite3
+import sqlite3, os
 import flight_generator, airports_generator
 
-db_path = "../db/travlr.db"
+dir = os.path.dirname(__file__)
+db_path = dir+'/../db/travlr.db'
 
 def main():
     db_conn = sqlite3.connect(db_path)

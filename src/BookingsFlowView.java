@@ -19,35 +19,76 @@
  */
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BookingsFlowView extends JPanel {
     private Map<String, String> flight_data = new HashMap();
+    private int booking_state;
 
     protected JButton return_btn;
 
-    public BookingsFlowView(){
+    private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
+    private Border border = BorderFactory.createLineBorder(Color.BLACK);
+    private Border inner_border = BorderFactory.createCompoundBorder(
+            empty_border,
+            border);
+
+
+    public BookingsFlowView(){}
+
+    public BookingsFlowView(Map<String, String> fdata){
+        this.setFlightData(fdata);
+        this.setBookingState(1);
+        this.updateView();
     }
 
     /********************************************************************
      * Name:    displayView()   :   Method                              *
      * Purpose:                                                         *
      ********************************************************************/
-    public void updateView(){
+    public void updateView() {
         this.removeAll();
 
-        this.setLayout(new GridLayout(5, 1));
-        JLabel booking_pane = new JLabel("Bookings flow for: ");
-        this.add(booking_pane);
-        JLabel fd = new JLabel(flight_data.toString());
-        this.add(fd);
-        return_btn = new JButton("Return to search.");
-        this.add(return_btn);
-        this.revalidate();
-        this.repaint();
+        if (this.booking_state == 1) {
+            this.add(pageOneView());
+            return_btn = new JButton("Return to search.");
+            this.add(return_btn);
+        } else if (this.booking_state == 2) {
+            pageTwoView();
+        } else if (this.booking_state == 3) {
+            pageThreeView();
+        }
+
     }
+
+    private JPanel pageOneView(){
+        JPanel flight_panel = new JPanel();
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JLabel flight_id = new JLabel(flight_data.get("flight_id"));
+        JLabel airport_info = new JLabel(flight_data.get("source") + " --> " + flight_data.get("destination"));
+        JLabel date_info = new JLabel(flight_data.get("datetime"));
+        JLabel price_info = new JLabel("$"+flight_data.get("price"));
+
+        flight_id.setBorder(empty_border);
+        airport_info.setBorder(empty_border);
+        date_info.setBorder(empty_border);
+        price_info.setBorder(empty_border);
+
+        flight_panel.add(flight_id);
+        flight_panel.add(airport_info);
+        flight_panel.add(date_info);
+        flight_panel.add(price_info);
+        flight_panel.setBorder(inner_border);
+        return flight_panel;
+    }
+
+    private void pageTwoView() {}
+
+    private void pageThreeView() {}
 
     public Map<String, String> getFlightData() {
         return flight_data;
@@ -55,6 +96,14 @@ public class BookingsFlowView extends JPanel {
 
     public void setFlightData(Map<String, String> flight_data) {
         this.flight_data = flight_data;
+    }
+
+    public int getBookingState() {
+        return booking_state;
+    }
+
+    public void setBookingState(int booking_state) {
+        this.booking_state = booking_state;
     }
 
     protected GridBagConstraints getConstraints(){

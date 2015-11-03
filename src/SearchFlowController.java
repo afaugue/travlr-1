@@ -24,6 +24,7 @@ public class SearchFlowController {
     SearchModel search_model;
     String[] locations;
     ArrayList<Map> flight_data;
+    Boolean needs_return_flight = false;
     Flight individual_flight;
 
     /*******************************************************************
@@ -41,30 +42,34 @@ public class SearchFlowController {
         search_view = new SearchFlowView();
         search_view.setAirports(locations);
         search_view.updateView();
-        addControls();
+        addSearchControls();
         parent_container.add(search_view, search_view.getConstraints());
     }
 
-    /*******************************************************************
-    * Name:    updateView()   :   Method                               *
-    * Purpose:                                                         *
-    ********************************************************************/
-    public void addControls() {
+    public void addSearchControls() {
+        search_view.one_way_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                toggleReturnFlight(actionEvent.getActionCommand());
+            }
+        });
+
+        search_view.two_way_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                toggleReturnFlight(actionEvent.getActionCommand());
+            }
+        });
+
         search_view.search_submit_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 performBasicSearch();
             }
         });
 
-        /*search_view.src_select.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                pullShortName((String)search_view.src_select.getSelectedItem());
-            }
-        });*/
+    }
 
+    private void addBookingControls(){
         for (int i = 0; i < search_view.booking_buttons.length; i++){
             final int j = i;
-            System.out.println("Adding event to button "+Integer.toString(j));
             search_view.booking_buttons[i].addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent actionEvent) {
                     parent_frame.startBookingsFlow(search_view.getFlightData().get(j));
@@ -74,16 +79,33 @@ public class SearchFlowController {
     }
 
     private String pullShortName(String full_text){
-        System.out.println(full_text);
         String pattern = ".*\\((\\w+)\\)";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(full_text);
         if (m.find()){
             return m.group(1);
         } else {
-            return "";
+            return full_text;
         }
     }
+
+    private void toggleReturnFlight(String btn_value){
+        if ("two".equals(btn_value)){
+            needs_return_flight = true;
+            search_view.one_way_btn.setEnabled(true);
+            search_view.two_way_btn.setEnabled(false);
+            search_view.two_way_btn.setBackground(Color.BLUE);
+            search_view.one_way_btn.setBackground(null);
+        } else {
+            needs_return_flight = false;
+            search_view.one_way_btn.setEnabled(false);
+            search_view.two_way_btn.setEnabled(true);
+            search_view.one_way_btn.setBackground(Color.BLUE);
+            search_view.two_way_btn.setBackground(null);
+        }
+        System.out.print(needs_return_flight);
+    }
+
     private void setNewDisplay(String new_view) {
         parent_container.remove(search_view);
         search_view.setDisplay(new_view);
@@ -102,7 +124,7 @@ public class SearchFlowController {
         flight_data = search_model.getFlightData();
         search_view.setFlightData(flight_data);
         search_view.setDisplay("list");
-        addControls();
+        addBookingControls();
     }
 
     /** Getter/Setter functions for updating individual fields of a Search object. */

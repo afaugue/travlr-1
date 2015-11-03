@@ -31,7 +31,7 @@ public class SearchFlowView extends JPanel {
     private String src, dest, time, date, results;
     private JPanel search_pane, content_pane;
 
-    protected JButton search_submit_button;
+    protected JButton search_submit_button, one_way_btn, two_way_btn;
     protected JButton[] booking_buttons = {};
 
     protected JComboBox src_select, dest_select;
@@ -81,6 +81,15 @@ public class SearchFlowView extends JPanel {
     * Purpose:                                                         *
     ********************************************************************/
     private JPanel searchView() {
+        one_way_btn = new JButton("One-Way");
+        two_way_btn = new JButton("Two-Way");
+        one_way_btn.setActionCommand("one");
+        two_way_btn.setActionCommand("two");
+        one_way_btn.setEnabled(false);
+        one_way_btn.setBackground(Color.BLUE);
+        this.add(one_way_btn);
+        this.add(two_way_btn);
+        
         search_pane = new JPanel();
         src_select = new JComboBox(this.airports);
         dest_select = new JComboBox(this.airports);
@@ -88,6 +97,7 @@ public class SearchFlowView extends JPanel {
         time_select = new JSpinner();
         results_area = new JTextArea();
         search_submit_button = new JButton("submit");
+
         search_pane.add(src_select);
         search_pane.add(dest_select);
         search_pane.add(date_select);
@@ -120,7 +130,7 @@ public class SearchFlowView extends JPanel {
             Map<String, String> data_map = new HashMap(flight_data.get(i));
             JLabel flight_id = new JLabel(data_map.get("flight_id"));
             JLabel airport_info = new JLabel(data_map.get("source") + " --> " + data_map.get("destination"));
-            JLabel date_info = new JLabel(data_map.get("date")+" - "+data_map.get("time"));
+            JLabel date_info = new JLabel(data_map.get("datetime"));
             JLabel price_info = new JLabel("$"+data_map.get("price"));
             JButton book_btn = new JButton("Book Flight");
             booking_buttons[i] = book_btn;
