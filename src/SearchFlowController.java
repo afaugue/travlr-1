@@ -70,11 +70,13 @@ public class SearchFlowController {
     private void addBookingControls(){
         for (int i = 0; i < search_view.booking_buttons.length; i++){
             final int j = i;
-            search_view.booking_buttons[i].addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent actionEvent) {
-                    parent_frame.startBookingsFlow(search_view.getFlightData().get(j));
-                }
-            });
+            if (search_view.booking_buttons[i] != null) {
+                search_view.booking_buttons[i].addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        parent_frame.startBookingsFlow(search_view.getFlightData().get(j));
+                    }
+                });
+            }
         }
     }
 

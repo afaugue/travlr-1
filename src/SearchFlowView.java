@@ -1,9 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**********************************************************************
 * Name:    SearchFlowView
@@ -81,16 +81,18 @@ public class SearchFlowView extends JPanel {
     * Purpose:                                                         *
     ********************************************************************/
     private JPanel searchView() {
+        search_pane = new JPanel();
+
         one_way_btn = new JButton("One-Way");
         two_way_btn = new JButton("Two-Way");
         one_way_btn.setActionCommand("one");
         two_way_btn.setActionCommand("two");
         one_way_btn.setEnabled(false);
         one_way_btn.setBackground(Color.BLUE);
-        this.add(one_way_btn);
-        this.add(two_way_btn);
-        
-        search_pane = new JPanel();
+
+        search_pane.add(one_way_btn);
+        search_pane.add(two_way_btn);
+
         src_select = new JComboBox(this.airports);
         dest_select = new JComboBox(this.airports);
         date_select = new JTextField(10);
@@ -121,35 +123,73 @@ public class SearchFlowView extends JPanel {
     ********************************************************************/
     private JPanel listView() {
         booking_buttons = new JButton[flight_data.size()];
+        Boolean matching_values = false;
+
+        // Initialize Outer Panel
         content_pane = new JPanel();
         content_pane.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
+
         for(int i=0; i < flight_data.size(); i++){
-            JPanel flight_panel = new JPanel();
-            Map<String, String> data_map = new HashMap(flight_data.get(i));
-            JLabel flight_id = new JLabel(data_map.get("flight_id"));
-            JLabel airport_info = new JLabel(data_map.get("source") + " --> " + data_map.get("destination"));
-            JLabel date_info = new JLabel(data_map.get("datetime"));
-            JLabel price_info = new JLabel("$"+data_map.get("price"));
-            JButton book_btn = new JButton("Book Flight");
-            booking_buttons[i] = book_btn;
-            flight_id.setBorder(empty_border);
-            airport_info.setBorder(empty_border);
-            date_info.setBorder(empty_border);
-            price_info.setBorder(empty_border);
-            book_btn.setBorder(empty_border);
-            flight_panel.add(flight_id);
-            flight_panel.add(airport_info);
-            flight_panel.add(date_info);
-            flight_panel.add(price_info);
-            flight_panel.add(book_btn);
-            flight_panel.setBorder(inner_border);
-            content_pane.add(flight_panel, gbc);
+            Map<String, String> data = new HashMap(flight_data.get(i));
+
+            // Filter Results by Date
+            Boolean date_filter = dateFilter(data.get("datetime"));
+            if (date_filter){
+                content_pane.add( generateFlightListing(data, i), gbc);
+                matching_values = true;
+            } else if (parseDate(this.getDate()) == null){
+                content_pane.add( generateFlightListing(data, i), gbc);
+                matching_values = true;
+            }
             gbc.gridy++;
         }
 
+        if (!matching_values){
+            content_pane.add(new JLabel("No Flights Matching Your Criteria"));
+        }
         return content_pane;
+    }
+
+    private JPanel generateFlightListing(Map<String, String> data_map, int position){
+        JPanel flight_panel = new JPanel();
+        JLabel flight_id = new JLabel(data_map.get("flight_id"));
+        JLabel airport_info = new JLabel(data_map.get("source") + " --> " + data_map.get("destination"));
+        JLabel date_info = new JLabel(data_map.get("datetime"));
+        JLabel price_info = new JLabel("$"+data_map.get("price"));
+        JButton book_btn = new JButton("Book Flight");
+        booking_buttons[position] = book_btn;
+        flight_id.setBorder(empty_border);
+        airport_info.setBorder(empty_border);
+        date_info.setBorder(empty_border);
+        price_info.setBorder(empty_border);
+        book_btn.setBorder(empty_border);
+        flight_panel.add(flight_id);
+        flight_panel.add(airport_info);
+        flight_panel.add(date_info);
+        flight_panel.add(price_info);
+        flight_panel.add(book_btn);
+        flight_panel.setBorder(inner_border);
+
+        return flight_panel;
+    }
+
+    private Boolean dateFilter(String input_date){
+        // Initialize Selected Date Variables
+        Date selected_date = parseDate(this.getDate() + " " + this.getTime());
+        Calendar date1 = dateToCalendar(selected_date);
+
+        // Initialize Flight Date Variables
+        Date flight_date = parseDate(input_date);
+        Calendar date2 = dateToCalendar(flight_date);
+
+        if ( date1 != null && date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
+                date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String getDisplay() {
@@ -231,6 +271,25 @@ public class SearchFlowView extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 1;
         return gbc;
+    }
+
+    private Date parseDate(String input_date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        Date parsed_date = null;
+        try {
+            parsed_date = sdf.parse(input_date);
+        } catch (ParseException e){}
+        return parsed_date;
+    }
+
+    private Calendar dateToCalendar(Date d){
+        if (d != null){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            return cal;
+        } else {
+            return null;
+        }
     }
 }
 
