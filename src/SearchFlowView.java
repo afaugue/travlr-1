@@ -1,5 +1,8 @@
+import com.toedter.calendar.JCalendar;
+
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,8 +24,6 @@ import java.util.*;
 *                  into a variety of different layouts.
 *                  These view include a Calander layout and List layout.
 *
-*
-
 **********************************************************************/
 public class SearchFlowView extends JPanel {
     // Global Variable Init of Class Base Properties
@@ -38,7 +39,9 @@ public class SearchFlowView extends JPanel {
 
     // Global Selection Variables
     private JComboBox src_select, dest_select;
-    private JTextField date_select;
+    protected JCalendar date_select;
+    protected JButton depart_date_btn;
+    protected JDialog dialog;
     private JSpinner time_select;
 
     // Global Border Variables
@@ -87,6 +90,8 @@ public class SearchFlowView extends JPanel {
     ********************************************************************/
     private JPanel searchView() {
         search_pane = new JPanel();
+        search_pane.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
         // Round-Trip vs One-Way Toggle
         one_way_btn = new JButton("One-Way");
@@ -97,22 +102,42 @@ public class SearchFlowView extends JPanel {
         one_way_btn.setBackground(Color.BLUE);
 
         // Add Trip Toggle Buttons to Panel
-        search_pane.add(one_way_btn);
-        search_pane.add(two_way_btn);
+        JPanel first_row = new JPanel();
+        gbc.gridx = 1;
+        first_row.add(one_way_btn);
+        first_row.add(two_way_btn);
+        search_pane.add(first_row, gbc);
 
         // Init Search Input Displays
         src_select = new JComboBox(this.airports);
         dest_select = new JComboBox(this.airports);
-        date_select = new JTextField(10);
-        time_select = new JSpinner();
+        depart_date_btn = new JButton("Leave Date");
+        JButton return_date_btn = new JButton("Return Date");
+        JPanel empty_panel = new JPanel();
+
+        date_select = new JCalendar();
+
         search_submit_button = new JButton("submit");
 
         // Add Input Displays to Panel
-        search_pane.add(src_select);
-        search_pane.add(dest_select);
-        search_pane.add(date_select);
-        search_pane.add(time_select);
-        search_pane.add(search_submit_button);
+        gbc.fill = GridBagConstraints.REMAINDER;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        search_pane.add(src_select, gbc);
+        gbc.gridy = 3;
+        search_pane.add(dest_select, gbc);
+        gbc.gridy = 4;
+        gbc.gridx = 1;
+        JPanel empty_last_row = new JPanel();
+        empty_last_row.setLayout(new GridLayout(1, 3));
+        empty_last_row.add(depart_date_btn);
+        empty_last_row.add(empty_panel);
+        empty_last_row.add(search_submit_button);
+        JPanel last_row = new JPanel();
+        last_row.setLayout(new GridLayout(1, 3));
+        last_row.add(depart_date_btn);
+        last_row.add(search_submit_button);
+        search_pane.add(empty_last_row, gbc);
 
         return search_pane;
     }
@@ -150,7 +175,7 @@ public class SearchFlowView extends JPanel {
             if (date_filter){
                 content_pane.add( generateFlightListing(data, i), gbc);
                 matching_values = true;
-            } else if (parseDate(this.getDate()) == null){
+            } else if (parseDate(this.getDate()+" "+this.getTime()) == null){
                 content_pane.add( generateFlightListing(data, i), gbc);
                 matching_values = true;
             }
@@ -287,7 +312,8 @@ public class SearchFlowView extends JPanel {
     }
 
     public String getTime() {
-        this.setTime(Integer.toString((int) time_select.getValue()));
+        this.setTime("00:00:00");
+        //this.setTime(Integer.toString((int) time_select.getValue()));
         return time;
     }
 
@@ -296,7 +322,6 @@ public class SearchFlowView extends JPanel {
     }
 
     public String getDate() {
-        this.setDate(date_select.getText());
         return date;
     }
 

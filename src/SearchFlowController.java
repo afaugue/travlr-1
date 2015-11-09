@@ -1,6 +1,11 @@
+import com.toedter.calendar.JCalendar;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -54,6 +59,29 @@ public class SearchFlowController {
         search_view.two_way_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 toggleReturnFlight(actionEvent.getActionCommand());
+            }
+        });
+
+        search_view.depart_date_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                search_view.dialog = new JDialog();
+                search_view.dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                search_view.dialog.getContentPane().add(search_view.date_select);
+                search_view.dialog.pack();
+                search_view.dialog.setLocationRelativeTo(null);
+                search_view.dialog.setVisible(true);
+            }
+        });
+
+        search_view.date_select.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                if ("calendar".equals(propertyChangeEvent.getPropertyName())){
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    search_view.depart_date_btn.setText(formatter.format(search_view.date_select.getDate()));
+                    search_view.setDate(formatter.format(search_view.date_select.getDate()));
+                    search_view.dialog.dispose();
+                }
             }
         });
 
