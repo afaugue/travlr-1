@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,11 +77,10 @@ public class SearchFlowController {
         search_view.date_select.addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-                if ("calendar".equals(propertyChangeEvent.getPropertyName())){
+                if ("calendar".equals(propertyChangeEvent.getPropertyName())) {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     search_view.depart_date_btn.setText(formatter.format(search_view.date_select.getDate()));
                     search_view.setDate(formatter.format(search_view.date_select.getDate()));
-                    search_view.dialog.dispose();
                 }
             }
         });
@@ -94,6 +94,14 @@ public class SearchFlowController {
     }
 
     private void addBookingControls(){
+        /*search_view.calendar_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                search_view.setDisplay("calendar");
+                search_view.updateView();
+                addCalendarControls();
+            }
+        });*/
         for (int i = 0; i < search_view.booking_buttons.length; i++){
             final int j = i;
             if (search_view.booking_buttons[i] != null) {
@@ -104,6 +112,17 @@ public class SearchFlowController {
                 });
             }
         }
+    }
+
+    private void addCalendarControls(){
+        search_view.flights_calendar.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                if ("calendar".equals(propertyChangeEvent.getPropertyName())) {
+                    search_view.addDateListings();
+                }
+            }
+        });
     }
 
     private String pullShortName(String full_text){
@@ -124,12 +143,14 @@ public class SearchFlowController {
             search_view.two_way_btn.setEnabled(false);
             search_view.two_way_btn.setBackground(Color.BLUE);
             search_view.one_way_btn.setBackground(null);
+            search_view.replaceLastRow("two-way");
         } else {
             needs_return_flight = false;
             search_view.one_way_btn.setEnabled(false);
             search_view.two_way_btn.setEnabled(true);
             search_view.one_way_btn.setBackground(Color.BLUE);
             search_view.two_way_btn.setBackground(null);
+            search_view.replaceLastRow("one-way");
         }
         System.out.print(needs_return_flight);
     }

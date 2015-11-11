@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.DateFormatter;
 import java.awt.*;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -31,18 +32,20 @@ public class SearchFlowView extends JPanel {
     private String[] airports;
     private ArrayList<Map> flight_data;
     private String src, dest, time, date;
-    private JPanel search_pane, content_pane;
+    protected JPanel search_pane, content_pane;
 
     // Interactive Elements to be Accessed by Controller
     protected JButton search_submit_button, one_way_btn, two_way_btn;
     protected JButton[] booking_buttons = {};
+    protected JPanel empty_last_row, last_row;
+    protected JCalendar date_select, flights_calendar;
+    protected JButton depart_date_btn, return_date_btn, calendar_btn;
+    protected JDialog dialog;
 
     // Global Selection Variables
     private JComboBox src_select, dest_select;
-    protected JCalendar date_select;
-    protected JButton depart_date_btn;
-    protected JDialog dialog;
-    private JSpinner time_select;
+    private JPanel empty_panel;
+    private JPanel date_flights_panel;
 
     // Global Border Variables
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
@@ -50,6 +53,8 @@ public class SearchFlowView extends JPanel {
     private Border inner_border = BorderFactory.createCompoundBorder(
             empty_border,
             border);
+    private URL calendar_img = this.getClass().getResource("images/calendar_icon.jpg");
+    private ImageIcon calendar_icon = new ImageIcon(calendar_img);
 
     /********************************************************************
      * Name:    SearchFlowView()    :   Constructor                     *
@@ -75,13 +80,17 @@ public class SearchFlowView extends JPanel {
         } else if ( this.display == "calendar" ){
             this.add( calendarView() );
         } else if ( this.display == "list" ){
-            this.add( search_pane );
-            this.add( listView() );
-            this.revalidate();
-            this.repaint();
+            this.setLayout(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            this.add(search_pane, gbc);
+            gbc.gridy = 2;
+            this.add( listView(), gbc);
+            gbc.gridy = 3;
         } else {
             System.out.println(" Invalid view type. ");
         }
+        this.revalidate();
+        this.repaint();
     }
 
     /*******************************************************************
@@ -112,8 +121,8 @@ public class SearchFlowView extends JPanel {
         src_select = new JComboBox(this.airports);
         dest_select = new JComboBox(this.airports);
         depart_date_btn = new JButton("Leave Date");
-        JButton return_date_btn = new JButton("Return Date");
-        JPanel empty_panel = new JPanel();
+        return_date_btn = new JButton("Return Date");
+        empty_panel = new JPanel();
 
         date_select = new JCalendar();
 
@@ -128,16 +137,13 @@ public class SearchFlowView extends JPanel {
         search_pane.add(dest_select, gbc);
         gbc.gridy = 4;
         gbc.gridx = 1;
-        JPanel empty_last_row = new JPanel();
-        empty_last_row.setLayout(new GridLayout(1, 3));
-        empty_last_row.add(depart_date_btn);
-        empty_last_row.add(empty_panel);
-        empty_last_row.add(search_submit_button);
-        JPanel last_row = new JPanel();
+
+        last_row = new JPanel();
         last_row.setLayout(new GridLayout(1, 3));
         last_row.add(depart_date_btn);
+        last_row.add(empty_panel);
         last_row.add(search_submit_button);
-        search_pane.add(empty_last_row, gbc);
+        search_pane.add(last_row, gbc);
 
         return search_pane;
     }
@@ -148,6 +154,11 @@ public class SearchFlowView extends JPanel {
     ********************************************************************/
     private JPanel calendarView() {
         content_pane = new JPanel();
+        Map<String, String> data = new HashMap(flight_data.get(1));
+
+        flights_calendar = new JCalendar();
+        //flights_calendar.getCalendar()(generateFlightListing(data, 1));
+        content_pane.add(flights_calendar);
         return content_pane;
     }
 
@@ -157,13 +168,31 @@ public class SearchFlowView extends JPanel {
     ********************************************************************/
     private JPanel listView() {
         booking_buttons = new JButton[flight_data.size()];
-        Boolean matching_values = false;
 
         // Initialize Outer Panel
         content_pane = new JPanel();
         content_pane.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = 0;
+
+        JPanel btn_panel = new JPanel();
+        calendar_icon = resizeIcon(calendar_icon, 30, 30);
+        calendar_btn = new JButton(calendar_icon);
+        btn_panel.add(calendar_btn);
+        content_pane.add(btn_panel);
+        gbc.gridy = 2;
+        content_pane.add(generateFlightsPane(), gbc);
+
+        return content_pane;
+    }
+
+    private JPanel generateFlightsPane(){
+
+        JPanel flights_panel = new JPanel();
+        flights_panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        Boolean matching_values = false;
+        gbc.gridy = 4;
 
         for(int i=0; i < flight_data.size(); i++){
             Map<String, String> data = new HashMap(flight_data.get(i));
@@ -174,19 +203,35 @@ public class SearchFlowView extends JPanel {
             // Create Displays for Matching Flights
             if (date_filter){
                 content_pane.add( generateFlightListing(data, i), gbc);
+                gbc.gridy++;
                 matching_values = true;
             } else if (parseDate(this.getDate()+" "+this.getTime()) == null){
                 content_pane.add( generateFlightListing(data, i), gbc);
+                gbc.gridy++;
                 matching_values = true;
             }
-            gbc.gridy++;
         }
 
         if (!matching_values){
-            content_pane.add(new JLabel("No Flights Matching Your Criteria"));
+            flights_panel.add(new JLabel("No Flights Matching Your Criteria"));
         }
-        return content_pane;
+
+        return flights_panel;
     }
+
+    /*protected void addDateListings(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        this.setDate(formatter.format(this.flights_calendar.getDate()));
+        try {
+            this.content_pane.remove(1);
+        } catch (Exception e){
+
+        }
+        this.date_flights_panel = this.generateFlightsPane();
+        this.content_pane.add(this.date_flights_panel);
+        this.revalidate();
+        this.repaint();
+    }*/
 
     private JPanel generateFlightListing(Map<String, String> data_map, int position){
         JPanel flight_panel = new JPanel();
@@ -217,6 +262,29 @@ public class SearchFlowView extends JPanel {
         return flight_panel;
     }
 
+    protected void replaceLastRow(String new_row){
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        this.search_pane.remove(last_row);
+        last_row = new JPanel();
+        last_row.setLayout(new GridLayout(1, 3));
+
+        gbc.gridy = 4;
+        gbc.gridx = 1;
+        if (new_row == "two-way"){
+            last_row.add(depart_date_btn);
+            last_row.add(return_date_btn);
+            last_row.add(search_submit_button);
+        } else if (new_row == "one-way"){
+            last_row.add(depart_date_btn);
+            last_row.add(empty_panel);
+            last_row.add(search_submit_button);
+        }
+        this.search_pane.add(last_row, gbc);
+        this.search_pane.revalidate();
+        this.search_pane.repaint();
+    }
+
     private Boolean dateFilter(String input_date){
         // Initialize Selected Date Variables
         Date selected_date = parseDate(this.getDate() + " " + this.getTime());
@@ -245,7 +313,7 @@ public class SearchFlowView extends JPanel {
         return gbc;
     }
 
-    private Date parseDate(String input_date){
+    protected Date parseDate(String input_date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
         Date parsed_date = null;
         try {
@@ -262,6 +330,14 @@ public class SearchFlowView extends JPanel {
         } else {
             return null;
         }
+    }
+
+    private ImageIcon resizeIcon(ImageIcon img_icon, int height, int width) {
+        img_icon = new ImageIcon(img_icon.getImage().getScaledInstance(
+                width,
+                height,
+                Image.SCALE_SMOOTH));
+        return img_icon;
     }
 
 
