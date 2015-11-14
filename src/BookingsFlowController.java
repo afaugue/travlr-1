@@ -22,12 +22,23 @@ public class BookingsFlowController {
      * Postcondition:                                                   *
      *      SearchFlowController() object has been created.             *
      ********************************************************************/
-    public BookingsFlowController(Travlr pframe, Container pcontain, Map<String, String> fdata){
-        this.individual_flight = fdata;
+    public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1){
         parent_frame = pframe;
         parent_container = pcontain;
         booking_model = new BookingModel();
-        bookings_view = new BookingsFlowView(individual_flight);
+        bookings_view = new BookingsFlowView(f1);
+        parent_container.add(bookings_view, bookings_view.getConstraints());
+        addReturnControl();
+        //card_control = new CreditCardController(parent_frame, pcontain);
+        parent_container.revalidate();
+        parent_container.repaint();
+    }
+
+    public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1, FlightModel f2){
+        parent_frame = pframe;
+        parent_container = pcontain;
+        booking_model = new BookingModel();
+        bookings_view = new BookingsFlowView(f1, f2);
         parent_container.add(bookings_view, bookings_view.getConstraints());
         addReturnControl();
         card_control = new CreditCardController(parent_frame, pcontain);

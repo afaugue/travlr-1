@@ -12,6 +12,7 @@ import java.net.URL;
 public class ImagePanel extends JPanel {
 
     private BufferedImage image;
+    protected JButton account_btn;
 
     public ImagePanel(URL file_path) {
         try {
@@ -32,4 +33,17 @@ public class ImagePanel extends JPanel {
         g.drawImage(image, 0, 0, width, height, this); // see javadoc for more info on the parameters
     }
 
+    protected void addAccountButton(Boolean session_active_status){
+        JPanel btn_panel = new JPanel();
+        btn_panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        this.setLayout(new BorderLayout());
+        if (session_active_status){
+            account_btn = new JButton("Logout");
+        } else {
+            account_btn = new JButton("Login");
+        }
+        btn_panel.add(account_btn);
+        btn_panel.setOpaque(false);
+        this.add(btn_panel, BorderLayout.NORTH);
+    }
 }

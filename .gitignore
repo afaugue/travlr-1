@@ -1,4 +1,4 @@
 .idea*
 travlr.iml
 db_generate/.idea*
-out/
+out/*

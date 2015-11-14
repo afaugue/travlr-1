@@ -1,5 +1,3 @@
-import com.toedter.calendar.JCalendar;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +5,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +24,8 @@ public class SearchFlowController {
     Container parent_container;
     Travlr parent_frame;
     SearchModel search_model;
+    FlightModel flight1, flight2;
+    GridBagConstraints search_view_constraints;
     String[] locations;
     ArrayList<Map> flight_data;
     Boolean needs_return_flight = false;
@@ -47,7 +46,6 @@ public class SearchFlowController {
         search_view.setAirports(locations);
         search_view.updateView();
         addSearchControls();
-        parent_container.add(search_view, search_view.getConstraints());
     }
 
     public void addSearchControls() {
@@ -64,6 +62,17 @@ public class SearchFlowController {
         });
 
         search_view.depart_date_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                search_view.dialog = new JDialog();
+                search_view.dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                search_view.dialog.getContentPane().add(search_view.date_select);
+                search_view.dialog.pack();
+                search_view.dialog.setLocationRelativeTo(null);
+                search_view.dialog.setVisible(true);
+            }
+        });
+
+        search_view.return_date_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 search_view.dialog = new JDialog();
                 search_view.dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -107,7 +116,16 @@ public class SearchFlowController {
             if (search_view.booking_buttons[i] != null) {
                 search_view.booking_buttons[i].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent actionEvent) {
-                        parent_frame.startBookingsFlow(search_view.getFlightData().get(j));
+                        if (needs_return_flight && flight1==null) {
+                            flight1 = new FlightModel(search_view.getFlightData().get(j));
+                            performBasicSearch();
+                        } else if (needs_return_flight && flight2==null){
+                            flight2 = new FlightModel(search_view.getFlightData().get(j));
+                            parent_frame.startBookingsFlow(flight1, flight2);
+                        } else {
+                            flight1 = new FlightModel(search_view.getFlightData().get(j));
+                            parent_frame.startBookingsFlow(flight1);
+                        }
                     }
                 });
             }
@@ -161,7 +179,11 @@ public class SearchFlowController {
         String dest = pullShortName(search_view.getDest());
         String date = search_view.getDate();
         String time = search_view.getTime();
-        search_model = new SearchModel(src, dest, date, time);
+        if (flight1 == null) {
+            search_model = new SearchModel(src, dest, date, time);
+        } else {
+            search_model = new SearchModel(dest, src, date, time);
+        }
         flight_data = search_model.getFlightData();
         search_view.setFlightData(flight_data);
         search_view.setDisplay("list");

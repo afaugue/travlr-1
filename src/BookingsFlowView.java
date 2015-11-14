@@ -21,11 +21,12 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class BookingsFlowView extends JPanel {
-    private Map<String, String> flight_data = new HashMap();
+    private ArrayList<FlightModel> flights = new ArrayList();
     private int booking_state;
 
     protected JButton return_btn;
@@ -39,8 +40,15 @@ public class BookingsFlowView extends JPanel {
 
     public BookingsFlowView(){}
 
-    public BookingsFlowView(Map<String, String> fdata){
-        this.setFlightData(fdata);
+    public BookingsFlowView(FlightModel f1){
+        this.setFlightData(f1);
+        this.setBookingState(1);
+        this.updateView();
+    }
+
+    public BookingsFlowView(FlightModel f1, FlightModel f2){
+        this.setFlightData(f1);
+        this.setFlightData(f2);
         this.setBookingState(1);
         this.updateView();
     }
@@ -53,7 +61,9 @@ public class BookingsFlowView extends JPanel {
         this.removeAll();
 
         if (this.booking_state == 1) {
-            this.add(pageOneView());
+            for(int i=0; i<flights.size(); i++){
+                this.add(generateFlightPanel(flights.get(i)));
+            }
             return_btn = new JButton("Return to search.");
             this.add(return_btn);
         } else if (this.booking_state == 2) {
@@ -63,14 +73,13 @@ public class BookingsFlowView extends JPanel {
         }
     }
 
-    private JPanel pageOneView(){
+    private JPanel generateFlightPanel(FlightModel input_flight){
         JPanel flight_panel = new JPanel();
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel flight_id = new JLabel(flight_data.get("flight_id"));
-        JLabel airport_info = new JLabel(flight_data.get("source") + " --> " + flight_data.get("destination"));
-        JLabel date_info = new JLabel(flight_data.get("datetime"));
-        JLabel price_info = new JLabel("$"+flight_data.get("price"));
+        JLabel flight_id = new JLabel(input_flight.getFlightID());
+        JLabel airport_info = new JLabel(input_flight.getStartLocation() + " --> "+input_flight.getDestLocation());
+        JLabel date_info = new JLabel(input_flight.getDateTime());
+        JLabel price_info = new JLabel(input_flight.getSeatPrice().toString());
 
         flight_id.setBorder(empty_border);
         airport_info.setBorder(empty_border);
@@ -89,12 +98,12 @@ public class BookingsFlowView extends JPanel {
 
     private void pageThreeView() {}
 
-    public Map<String, String> getFlightData() {
-        return flight_data;
-    }
+    //public Map<String, String> getFlightData() {
+    //    return flight_data;
+    //}
 
-    public void setFlightData(Map<String, String> flight_data) {
-        this.flight_data = flight_data;
+    public void setFlightData(FlightModel flight_data) {
+        this.flights.add(flight_data);
     }
 
     public int getBookingState() {
@@ -129,7 +138,7 @@ public class BookingsFlowView extends JPanel {
      * Adds the booking item to the booking database.
      */
 
-    public int lockSeatOnFlight(Flight flight, String seat_id){ return 0; }
+    public int lockSeatOnFlight(FlightModel flight, String seat_id){ return 0; }
     /**
      * Creates a database lock on the selected seats on the Flight object.
      * This prevents multiple users from trying to Book the same seat.

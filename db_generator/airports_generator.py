@@ -1,3 +1,4 @@
+import os
 def establishTable(conn):
     qs = ('Drop table airports')
     executeSQL(conn, qs)
@@ -7,7 +8,8 @@ def establishTable(conn):
     executeSQL(conn, qs)
 
 def generateEntries(conn):
-    fh = open('/media/lbontecou/3890-3D81/csc4350_software_engineering/travlr/db_generator/airports.txt').read()
+    dir_path = os.path.dirname(__file__)
+    fh = open(dir_path+'/airports.txt').read()
     i = 1
     for line in fh.split('\n'):
         if line:

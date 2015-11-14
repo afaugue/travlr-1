@@ -176,10 +176,10 @@ public class SearchFlowView extends JPanel {
         gbc.gridy = 0;
 
         JPanel btn_panel = new JPanel();
-        calendar_icon = resizeIcon(calendar_icon, 30, 30);
-        calendar_btn = new JButton(calendar_icon);
-        btn_panel.add(calendar_btn);
-        content_pane.add(btn_panel);
+        //calendar_icon = resizeIcon(calendar_icon, 30, 30);
+        //calendar_btn = new JButton(calendar_icon);
+        //btn_panel.add(calendar_btn);
+        //content_pane.add(btn_panel);
         gbc.gridy = 2;
         content_pane.add(generateFlightsPane(), gbc);
 
@@ -339,7 +339,6 @@ public class SearchFlowView extends JPanel {
                 Image.SCALE_SMOOTH));
         return img_icon;
     }
-
 
     /********************************************************************
      *  Getter and Setter Functions.                                    *

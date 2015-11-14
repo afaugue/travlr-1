@@ -14,7 +14,7 @@ import java.util.Date;
 public class BookingModel {
     String booking_id;
     AccountModel account;
-    Flight flight;
+    FlightModel flight;
     Ancillary[] ancillaries;
     String[] seat_ids;
     float total_price;
@@ -28,7 +28,7 @@ public class BookingModel {
      * @param acc 
      */
     
-    protected static void addFlight(Flight flight){}
+    protected static void addFlight(FlightModel flight){}
     /**
      * Adds the Flight to the Booking. 
      */
@@ -38,7 +38,7 @@ public class BookingModel {
      * Adds an Ancillary object to the booking.
      */
     
-    protected static void calculateTotalPrice(Flight f, Ancillary[] a){}
+    protected static void calculateTotalPrice(FlightModel f, Ancillary[] a){}
     /**
      * Iterates through the objects connected to the Booking in order to determine 
      * prices for each component. Component prices are then added together and 
