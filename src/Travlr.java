@@ -11,7 +11,7 @@ public class Travlr extends JFrame {
     static Travlr main_frame;
     static SearchFlowController search_flow;
     static BookingsFlowController bookings_flow;
-
+    static AccountController account_flow;
     /*******************************************************************
     * Name:     Travlr()   :   Constructor                             *
     * Purpose:  Initializes Application Frame.                         *
@@ -30,12 +30,18 @@ public class Travlr extends JFrame {
 
         startSearchFlow();
 
+        //frame_content.removeAll();
+        //account_flow = new AccountController(main_frame,frame_content);
         main_frame.showFrame();
     }
 
     public static void startSearchFlow(){
         frame_content.removeAll();
         search_flow = new SearchFlowController(main_frame, frame_content);
+        main_frame.setSize(new Dimension(800,800));
+        main_frame.setMinimumSize(new Dimension(800,800));
+        main_frame.revalidate();
+        main_frame.repaint();
     }
 
     public void returnSearchFlow(){
@@ -57,7 +63,7 @@ public class Travlr extends JFrame {
     ********************************************************************/
     public void setDefaults(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(600, 500));
+        this.setMinimumSize(new Dimension(800, 800));
         JPanel root = new JPanel();
         root.setLayout(new GridBagLayout());
         this.setContentPane(root);
@@ -70,6 +76,7 @@ public class Travlr extends JFrame {
     public void showFrame(){
         this.pack();
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
     }
 
     /*******************************************************************

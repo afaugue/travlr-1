@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-/**
- * Created by lbontecou on 10/26/15.
- */
 public class BookingsFlowController {
     BookingsFlowView bookings_view;
     Container parent_container;
@@ -15,6 +12,8 @@ public class BookingsFlowController {
     BookingModel booking_model;
     String[] locations;
     Map<String, String> individual_flight;
+    CreditCardController card_control;
+  
 
     /*******************************************************************
      * Name:    SearchFlowController()    :   Constructor               *
@@ -31,6 +30,7 @@ public class BookingsFlowController {
         bookings_view = new BookingsFlowView(individual_flight);
         parent_container.add(bookings_view, bookings_view.getConstraints());
         addReturnControl();
+        card_control = new CreditCardController(parent_frame, pcontain);
         parent_container.revalidate();
         parent_container.repaint();
     }
@@ -42,5 +42,9 @@ public class BookingsFlowController {
 
             }
         });
+    }
+    
+    public void addCreditView() {
+        
     }
 }

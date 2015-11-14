@@ -61,7 +61,6 @@ public class BookingsFlowView extends JPanel {
         } else if (this.booking_state == 3) {
             pageThreeView();
         }
-
     }
 
     private JPanel pageOneView(){

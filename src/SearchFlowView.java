@@ -219,19 +219,19 @@ public class SearchFlowView extends JPanel {
         return flights_panel;
     }
 
-    /*protected void addDateListings(){
+    protected void addDateListings() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.setDate(formatter.format(this.flights_calendar.getDate()));
         try {
             this.content_pane.remove(1);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
         this.date_flights_panel = this.generateFlightsPane();
         this.content_pane.add(this.date_flights_panel);
         this.revalidate();
         this.repaint();
-    }*/
+    }
 
     private JPanel generateFlightListing(Map<String, String> data_map, int position){
         JPanel flight_panel = new JPanel();

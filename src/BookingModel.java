@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class BookingModel {
     String booking_id;
-    Account account;
+    AccountModel account;
     Flight flight;
     Ancillary[] ancillaries;
     String[] seat_ids;
@@ -22,7 +22,7 @@ public class BookingModel {
     int baggage;
     Date booking_datetime;
 
-    protected static void addAccount(Account acc){}
+    protected static void addAccount(AccountModel acc){}
     /**
      * Adds the Account to the Booking
      * @param acc 

@@ -68,7 +68,7 @@ public class Flight {
     static void removeDatabase() {}
 
     /** Attempts to establishes an Account object using input credentials */
-    Account loginToAccount() { return new Account(); }
+    //Account loginToAccount() { return new Account(); }
 
     public String[] getAvailableSeats() {
         String[] strings = {};
