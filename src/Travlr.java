@@ -56,7 +56,7 @@ public class Travlr extends JFrame {
     }
 
     public void returnSearchFlow(){
-        frame_content.remove(bookings_flow.bookings_view);
+        frame_content.remove(1);
         frame_content.add(search_flow.search_view, getViewContstraints());
         frame_content.validate();
         frame_content.repaint();
@@ -137,6 +137,10 @@ public class Travlr extends JFrame {
         return active_account_session;
     }
 
+    protected void setAccountSessionStatus(boolean new_val){
+        active_account_session = new_val;
+    }
+
     /*******************************************************************
     * Name:    main()  :   Method                                      *
     * Purpose:                                                         *
@@ -149,4 +153,3 @@ public class Travlr extends JFrame {
         });
     }
 }
-    * Purpose:  Initializes Application Frame.                         *

@@ -63,12 +63,17 @@ public class AccountController {
         });
         
         account_view.cancel.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent actionEvent) {
-               if(parent_frame.search_flow == null) {
-                   parent_frame.startSearchFlow();
-               }
+                if(parent_frame.search_flow == null) {
+                       parent_frame.startSearchFlow();
+                } else {
+                       parent_frame.returnSearchFlow();
+                }
+                parent_frame.account_flow = null;
             }
         });
-        
+
+
     }
 }

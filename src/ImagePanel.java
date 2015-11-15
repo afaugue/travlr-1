@@ -55,11 +55,13 @@ public class ImagePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (parent_frame.getAccountSessionStatus()){
+                    parent_frame.setAccountSessionStatus(true);
                     account_btn.setText("Logout");
                     parent_frame.account_flow = null;
                     parent_frame.returnSearchFlow();
                 } else {
                     parent_frame.startAccountFlow();
+                    parent_frame.setAccountSessionStatus(false);
                     account_btn.setText("Login");
                     parent_frame.revalidate();
                     parent_frame.repaint();

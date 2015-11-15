@@ -72,8 +72,8 @@ public class AccountModel {
         this.lastName = lastName;
         this.email = email;
         this.username = username;
-        this.password = password; 
-	String query_string = ("select * from accounts where username = '"+username+"';");
+        this.password = password;
+        String query_string = ("select * from accounts where username = '"+username+"';");
         ResultSet result_set = queryDB(query_string);
         boolean status = handleInsertQuery(result_set);
         return status;
@@ -105,7 +105,29 @@ public class AccountModel {
         }
         return result_set;
     }
-        
+
+    private void insertDB(String insert_string) {
+        Connection connection = null;
+        Statement statement = null;
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:db/travlr.db");
+            statement = connection.createStatement();
+
+            statement.executeUpdate(insert_string);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                statement.close();
+                connection.close();
+            } catch (Exception f) {
+                f.printStackTrace();
+            }
+        }
+    }
+
     public boolean handleInsertQuery(ResultSet rs) {
         try {
             while(rs.next()) {
@@ -113,8 +135,10 @@ public class AccountModel {
                 return false;
             }
             
-            String query_string2 = ("insert into accounts (fname, lname, email, username, password, reward_miles) VALUES ('"+firstName+"', '"+lastName+"', '"+email+"', '"+username+"', '"+password+"', 0)");
-            queryDB(query_string2);
+            String insert_string= ( "insert into accounts (fname, lname, email, username, password, reward_miles)"+
+                                    " VALUES ('"+firstName+"', '"+lastName+"', '"+email+"', '"+username+"', '"+
+                                    password+"', 0)");
+            insertDB(insert_string);
             return true;
         }
         catch(Exception e) {
@@ -132,7 +156,4 @@ public class AccountModel {
     }
     
     public static void deleteAccount(){}
-    /*
-	 * User will be able to delete account from database
-	 */
 }

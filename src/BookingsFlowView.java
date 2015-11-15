@@ -92,20 +92,17 @@ public class BookingsFlowView extends JPanel {
 
         right_gbc.gridx = 1;
         right_gbc.gridy = 0;
-        right_gbc.weightx = .7;
+        right_gbc.weightx = .3;
 
         left_gbc.gridx = 0;
         left_gbc.gridy = 0;
         left_gbc.weightx = .7;
 
-        JPanel left_panel = new JPanel();
-        left_panel.setLayout(new GridBagLayout());
-
         for (int i=0; i<flights.size(); i++) {
-            left_panel.add(generateFlightPanel(flights.get(i)), left_gbc);
-            left_gbc.gridy += 1;
+            outer_panel.add(generateFlightPanel(flights.get(i)), left_gbc);
+            left_gbc.gridy++;
             outer_panel.add(buildPrice(flights.get(i)), right_gbc);
-            right_gbc.gridy += 1;
+            right_gbc.gridy++;
             System.out.println(flights.get(i).toString());
         }
         outer_panel.add(buildTax(),right_gbc);
@@ -114,9 +111,7 @@ public class BookingsFlowView extends JPanel {
         right_gbc.gridy++;
 
 
-
-        outer_panel.add(left_panel, left_gbc);
-
+        outer_panel.setBorder(inner_border);
         return outer_panel;
     }
 
@@ -129,7 +124,7 @@ public class BookingsFlowView extends JPanel {
         price_info.setBorder(empty_border);
 
         price_sum.add(price_info);
-        price_sum.setBorder(inner_border);
+        price_sum.setBorder(empty_border);
 
         return price_sum;
     }
@@ -147,7 +142,6 @@ public class BookingsFlowView extends JPanel {
         tax_info.setBorder(empty_border);
 
         tax_sum.add(tax_info);
-        tax_sum.setBorder(inner_border);
 
         return tax_sum;
     }
@@ -166,7 +160,6 @@ public class BookingsFlowView extends JPanel {
         final_price.setBorder(empty_border);
 
         price_summary.add(final_price);
-        price_summary.setBorder(inner_border);
 
         return price_summary;
     }
