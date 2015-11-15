@@ -6,17 +6,17 @@ def establishTable(conn):
     qs = (
         '''Create table bookings
           (id INTEGER PRIMARY KEY   AUTOINCREMENT,
-           personal_info_id INT,
            seat_numbers VARCHAR(30),
            bags INT,
-           ancillary_pkg_id INT );'''
+           ancillary_pkg_id INT,
+           created DATETIME DEFAULT CURRENT_TIMESTAMP);'''
     )
     executeSQL(conn, qs)
 
 def generateEntries(conn):
     qs = ('insert into bookings '
-          '(personal_info_id, seat_numbers, bags, ancillary_pkg_id) VALUES '
-          '(1, "1A,1B", 2, 1);')
+          '(seat_numbers, bags, ancillary_pkg_id) VALUES '
+          '("1A,1B", 2, 1);')
     executeSQL(conn, qs)
     conn.commit()
 

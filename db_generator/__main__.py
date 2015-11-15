@@ -3,7 +3,7 @@
 import sqlite3, os
 import flight_generator, airports_generator, accounts_generator, card_generator
 import accounts_cards_generator, accounts_bookings_generator, flights_bookings_generator
-import bookings_generator, personal_info_generator
+import bookings_generator, personal_info_generator, bookings_personalinfo_generator
 
 dir = os.path.dirname(__file__)
 db_path = dir+'/../db/travlr.db'
@@ -47,5 +47,8 @@ def main():
     print "Personal Info"
     personal_info_generator.establishTable(db_conn)
     personal_info_generator.generateEntries(db_conn)
+
+    bookings_personalinfo_generator.establishTable(db_conn)
+    bookings_personalinfo_generator.generateEntries(db_conn)
 
 main()

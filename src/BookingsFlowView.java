@@ -23,14 +23,13 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BookingsFlowView extends JPanel {
     private ArrayList<FlightModel> flights = new ArrayList();
     private int booking_state;
 
     protected JButton return_btn, continue_btn;
+    protected InfoPanel info_panel;
 
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -74,11 +73,13 @@ public class BookingsFlowView extends JPanel {
             this.add(return_btn,gbc);
         } else if (this.booking_state == 2) {
             pageTwoView();
-            return_btn = new JButton("Return to search.");
+            this.add(continue_btn);
             this.add(return_btn);
         } else if (this.booking_state == 3) {
             pageThreeView();
-            return_btn = new JButton("Return to search.");
+            info_panel = new InfoPanel();
+            this.add(info_panel);
+            this.add(continue_btn);
             this.add(return_btn);
         }
     }

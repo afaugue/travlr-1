@@ -6,15 +6,17 @@ def establishTable(conn):
     qs = (
         '''Create table accounts_bookings
           (id INTEGER PRIMARY KEY   AUTOINCREMENT,
-           account_id INT,
-           booking_id INT);'''
+           account_id INTEGER,
+           booking_id INTEGER,
+           FOREIGN KEY (account_id) REFERENCES accounts(id),
+           FOREIGN KEY (booking_id) REFERENCES bookings(id));'''
     )
     executeSQL(conn, qs)
 
 def generateEntries(conn):
     qs = ('insert into accounts_bookings '
-          '(id, account_id, booking_id) VALUES '
-          '( 1, 1, 1);')
+          '(account_id, booking_id) VALUES '
+          '(1, 1);')
     executeSQL(conn, qs)
     conn.commit()
 

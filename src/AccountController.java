@@ -70,6 +70,7 @@ public class AccountController {
                 } else {
                        parent_frame.returnSearchFlow();
                 }
+                parent_frame.setAccountSessionStatus(false);
                 parent_frame.account_flow = null;
             }
         });

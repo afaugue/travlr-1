@@ -14,7 +14,8 @@ def establishTable(conn):
            email VARCHAR(25),
            username VARCHAR(20),
            password VARCHAR(25),
-           reward_miles INT );'''
+           reward_miles INT,
+           created DATETIME DEFAULT CURRENT_TIMESTAMP );'''
     )
     executeSQL(conn, qs)
 
