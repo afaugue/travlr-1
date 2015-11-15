@@ -38,10 +38,16 @@ public class AccountController {
                 user = account_view.user_text.getText();
                 pass = account_view.password_text.getText();
                 conf_pass = account_view.confirm_pass.getText();
+                boolean check = true;
+                if(!email.contains("@")) {
+                    JOptionPane.showMessageDialog(account_view.account_pane, "Invalid email address");
+                    check = false;
+                }
                 if(!pass.equals(conf_pass)) {
                     JOptionPane.showMessageDialog(account_view.account_pane, "Passwords do not match");
+                    check = false;
                 }
-                else {
+                if(check){
                     boolean success = account_model.addAccountToDatabase(fname, lname, email, user, pass);
                     if(success) {
                         JOptionPane.showMessageDialog(account_view.account_pane, "Thank You for Registering!");

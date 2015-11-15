@@ -19,7 +19,7 @@ public class Travlr extends JFrame {
 
     /*******************************************************************
     * Name:     Travlr()   :   Constructor                             *
-    * Purpose:  Initializes Application Frame.                         *
+
     ********************************************************************/
     public Travlr(){this.setTitle("Travlr");}
 
@@ -49,6 +49,8 @@ public class Travlr extends JFrame {
     public static void startSearchFlow(){
         search_flow = new SearchFlowController(main_frame, frame_content);
         frame_content.add(search_flow.search_view, getViewContstraints());
+        //main_frame.setSize(new Dimension(800,800));
+        //main_frame.setMinimumSize(new Dimension(800,800));
         main_frame.revalidate();
         main_frame.repaint();
     }
@@ -147,3 +149,4 @@ public class Travlr extends JFrame {
         });
     }
 }
+    * Purpose:  Initializes Application Frame.                         *
