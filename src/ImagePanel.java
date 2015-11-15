@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,7 @@ public class ImagePanel extends JPanel {
 
     private BufferedImage image;
     protected JButton account_btn;
+    protected Travlr parent_frame = Travlr.main_frame;
 
     public ImagePanel(URL file_path) {
         try {
@@ -45,5 +48,23 @@ public class ImagePanel extends JPanel {
         btn_panel.add(account_btn);
         btn_panel.setOpaque(false);
         this.add(btn_panel, BorderLayout.NORTH);
+    }
+
+    protected void addAccountButtonControls(){
+        account_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (parent_frame.getAccountSessionStatus()){
+                    account_btn.setText("Logout");
+                    parent_frame.account_flow = null;
+                    parent_frame.returnSearchFlow();
+                } else {
+                    parent_frame.startAccountFlow();
+                    account_btn.setText("Login");
+                    parent_frame.revalidate();
+                    parent_frame.repaint();
+                }
+            }
+        });
     }
 }

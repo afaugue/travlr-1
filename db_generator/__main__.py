@@ -16,8 +16,8 @@ def main():
     airports_generator.generateEntries(db_conn)
 
     print "Generating Flights Table"
-    #flight_generator.establishTable(db_conn)
-    #flight_generator.generateEntries(db_conn)
+    flight_generator.establishTable(db_conn)
+    flight_generator.generateEntries(db_conn)
 
     print "Generating Accounts Table"
     accounts_generator.establishTable(db_conn)

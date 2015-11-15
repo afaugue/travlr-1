@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.print.Book;
 import java.util.Map;
 
 /***********************************************************************
@@ -35,6 +36,7 @@ public class Travlr extends JFrame {
 
         logo_panel = new ImagePanel(Travlr.class.getResource("images/logo.png"));
         logo_panel.addAccountButton(active_account_session);
+        logo_panel.addAccountButtonControls();
         frame_content.add(logo_panel, getBannerConstraints());
 
         startSearchFlow();
@@ -46,14 +48,14 @@ public class Travlr extends JFrame {
 
     public static void startSearchFlow(){
         search_flow = new SearchFlowController(main_frame, frame_content);
-        frame_content.add(search_flow.search_view, getSearchViewContstraints());
+        frame_content.add(search_flow.search_view, getViewContstraints());
         main_frame.revalidate();
         main_frame.repaint();
     }
 
     public void returnSearchFlow(){
         frame_content.remove(bookings_flow.bookings_view);
-        frame_content.add(search_flow.search_view, search_flow.search_view.getConstraints());
+        frame_content.add(search_flow.search_view, getViewContstraints());
         frame_content.validate();
         frame_content.repaint();
     }
@@ -61,11 +63,27 @@ public class Travlr extends JFrame {
     public void startBookingsFlow(FlightModel f1){
         frame_content.remove(search_flow.search_view);
         bookings_flow = new BookingsFlowController(main_frame, frame_content, f1);
+        frame_content.add(bookings_flow.bookings_view, getViewContstraints());
+        frame_content.revalidate();
+        frame_content.repaint();
     }
 
     public void startBookingsFlow(FlightModel f1, FlightModel f2) {
         frame_content.remove(search_flow.search_view);
         bookings_flow = new BookingsFlowController(main_frame, frame_content, f1, f2);
+        frame_content.add(bookings_flow.bookings_view, getViewContstraints());
+        frame_content.revalidate();
+        frame_content.repaint();
+    }
+
+    public void startAccountFlow(){
+        for (int i=1; i<frame_content.getComponentCount(); i++){
+            frame_content.remove(i);
+        }
+        account_flow = new AccountController(main_frame, frame_content);
+        frame_content.add(account_flow.account_view, getViewContstraints());
+        frame_content.revalidate();
+        frame_content.repaint();
     }
 
 
@@ -80,7 +98,7 @@ public class Travlr extends JFrame {
         return gbc;
     }
 
-    protected static GridBagConstraints getSearchViewContstraints(){
+    protected static GridBagConstraints getViewContstraints(){
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.BOTH;
@@ -111,6 +129,10 @@ public class Travlr extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+    }
+
+    protected boolean getAccountSessionStatus(){
+        return active_account_session;
     }
 
     /*******************************************************************

@@ -76,7 +76,7 @@ public class SearchFlowController {
             public void actionPerformed(ActionEvent actionEvent) {
                 search_view.dialog = new JDialog();
                 search_view.dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                search_view.dialog.getContentPane().add(search_view.date_select);
+                search_view.dialog.getContentPane().add(search_view.return_date_select);
                 search_view.dialog.pack();
                 search_view.dialog.setLocationRelativeTo(null);
                 search_view.dialog.setVisible(true);
@@ -90,6 +90,17 @@ public class SearchFlowController {
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                     search_view.depart_date_btn.setText(formatter.format(search_view.date_select.getDate()));
                     search_view.setDate(formatter.format(search_view.date_select.getDate()));
+                }
+            }
+        });
+
+        search_view.return_date_select.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                if ("calendar".equals(propertyChangeEvent.getPropertyName())) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    search_view.return_date_btn.setText(formatter.format(search_view.return_date_select.getDate()));
+                    search_view.setReturnDate(formatter.format(search_view.return_date_select.getDate()));
                 }
             }
         });
@@ -182,6 +193,10 @@ public class SearchFlowController {
         if (flight1 == null) {
             search_model = new SearchModel(src, dest, date, time);
         } else {
+            search_view.setDate(search_view.getReturnDate());
+            search_view.setTime(search_view.getReturnTime());
+            date = search_view.getReturnDate();
+            time = search_view.getReturnTime();
             search_model = new SearchModel(dest, src, date, time);
         }
         flight_data = search_model.getFlightData();

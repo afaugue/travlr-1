@@ -27,8 +27,8 @@ public class BookingsFlowController {
         parent_container = pcontain;
         booking_model = new BookingModel();
         bookings_view = new BookingsFlowView(f1);
-        parent_container.add(bookings_view, bookings_view.getConstraints());
         addReturnControl();
+        addContinueControl();
         //card_control = new CreditCardController(parent_frame, pcontain);
         parent_container.revalidate();
         parent_container.repaint();
@@ -39,11 +39,19 @@ public class BookingsFlowController {
         parent_container = pcontain;
         booking_model = new BookingModel();
         bookings_view = new BookingsFlowView(f1, f2);
-        parent_container.add(bookings_view, bookings_view.getConstraints());
         addReturnControl();
-        card_control = new CreditCardController(parent_frame, pcontain);
-        parent_container.revalidate();
-        parent_container.repaint();
+        //card_control = new CreditCardController(parent_frame, pcontain);
+    }
+
+    private void addContinueControl(){
+        bookings_view.continue_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                bookings_view.setBookingState(2);
+                bookings_view.updateView();
+                bookings_view.revalidate();
+                bookings_view.repaint();
+            }
+        });
     }
 
     private void addReturnControl(){

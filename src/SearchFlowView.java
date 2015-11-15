@@ -31,14 +31,14 @@ public class SearchFlowView extends JPanel {
     private String display;
     private String[] airports;
     private ArrayList<Map> flight_data;
-    private String src, dest, time, date;
+    private String src, dest, time, date, return_date, return_time;
     protected JPanel search_pane, content_pane;
 
     // Interactive Elements to be Accessed by Controller
     protected JButton search_submit_button, one_way_btn, two_way_btn;
     protected JButton[] booking_buttons = {};
     protected JPanel empty_last_row, last_row;
-    protected JCalendar date_select, flights_calendar;
+    protected JCalendar date_select, return_date_select, flights_calendar;
     protected JButton depart_date_btn, return_date_btn, calendar_btn;
     protected JDialog dialog;
 
@@ -125,6 +125,7 @@ public class SearchFlowView extends JPanel {
         empty_panel = new JPanel();
 
         date_select = new JCalendar();
+        return_date_select = new JCalendar();
 
         search_submit_button = new JButton("submit");
 
@@ -402,5 +403,21 @@ public class SearchFlowView extends JPanel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getReturnDate(){
+        return return_date;
+    }
+
+    public void setReturnDate(String date){
+        this.return_date = date;
+    }
+
+    public String getReturnTime(){
+        return return_time;
+    }
+
+    public void setReturnTime(String time){
+        this.return_time = time;
     }
 }
