@@ -4,7 +4,7 @@ def establishTable(conn):
     executeSQL(conn, qs)
     conn.commit()
 
-    qs = ( 'Create table airports(id INT,long_name VARCHAR(30),short_name VARCHAR(5));')
+    qs = ( 'Create table airports(id INTEGER PRIMARY KEY  AUTOINCREMENT,long_name VARCHAR(30),short_name VARCHAR(5));')
     executeSQL(conn, qs)
 
 def generateEntries(conn):
@@ -16,8 +16,8 @@ def generateEntries(conn):
             line = line.split('|')
             long = line[0].replace(',','').strip()
             short = line[1].strip()
-            qs = ("insert into airports(id, long_name, short_name) "+
-                    "VALUES ("+str(i)+", '"+long+"', '"+short+"');")
+            qs = ("insert into airports(long_name, short_name) "+
+                    "VALUES ('"+long+"', '"+short+"');")
             executeSQL(conn,qs)
         i+=1
     conn.commit()

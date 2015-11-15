@@ -8,7 +8,7 @@ def establishTable(conn):
 
     qs = (
         '''Create table flights
-          (id INT,
+          (id INTEGER PRIMARY KEY   AUTOINCREMENT,
            src_id INT,
            dest_id INT,
            dt DATETIME,
@@ -53,9 +53,9 @@ def generateEntries(conn):
         while dest_id == src_id:
             dest_id = random.choice(airport_ids)
         qs = ('insert into flights '
-                '(id, src_id, dest_id, dt, price, avail_seats, bag_price, seat_price, miles) '
+                '(src_id, dest_id, dt, price, avail_seats, bag_price, seat_price, miles) '
               'values '
-              '('+str(i)+', '+str(src_id)+', '+str(dest_id)+', "'+str(dt)+'", '
+              '('+str(src_id)+', '+str(dest_id)+', "'+str(dt)+'", '
                 ' '+'{:.2f}'.format(price)+', "'+seat_list+'", '+str(bag)+', '+str(seat)+', '+str(miles)+');')
         executeSQL(conn, qs)
     conn.commit()

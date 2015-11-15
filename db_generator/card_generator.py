@@ -5,7 +5,7 @@ def establishTable(conn):
 
     qs = (
         '''Create table cards
-          (id INT,
+          (id INTEGER PRIMARY KEY   AUTOINCREMENT,
            num VARCHAR(20),
            cvv VARCHAR(3),
            company VARCHAR(15),
@@ -16,8 +16,8 @@ def establishTable(conn):
 
 def generateEntries(conn):
     qs = ('insert into cards '
-          '(id, num, cvv, company, name_on_card, expiration) VALUES '
-          '( 1, "0000123456789000", "999", "Visa", "Pork T. Twerkins", "08/2017");')
+          '(num, cvv, company, name_on_card, expiration) VALUES '
+          '("0000123456789000", "999", "Visa", "Pork T. Twerkins", "08/2017");')
     executeSQL(conn, qs)
     conn.commit()
 

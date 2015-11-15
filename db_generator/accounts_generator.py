@@ -8,7 +8,7 @@ def establishTable(conn):
 
     qs = (
         '''Create table accounts
-          (id INT,
+          (id INTEGER PRIMARY KEY   AUTOINCREMENT,
            fname VARCHAR(10),
            lname VARCHAR(15),
            email VARCHAR(25),
@@ -20,8 +20,13 @@ def establishTable(conn):
 
 def generateEntries(conn):
     qs = ('insert into accounts '
-          '(id, fname, lname, email, username, password, reward_miles) VALUES '
-          '( 1, "dee", "fault", "demail@gmail.com", "default", "default", 0);')
+          '(fname, lname, email, username, password, reward_miles) VALUES '
+          '("guest", "guest", "guest@travlr.com", "admin", "admin", 0);')
+    executeSQL(conn, qs);
+    conn.commit();
+    qs = ('insert into accounts '
+          '(fname, lname, email, username, password, reward_miles) VALUES '
+          '("dee", "fault", "demail@gmail.com", "default", "default", 0);')
     executeSQL(conn, qs)
     conn.commit()
 

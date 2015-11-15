@@ -5,7 +5,7 @@ def establishTable(conn):
 
     qs = (
         '''Create table accounts_cards
-          (id INT,
+          (id INTEGER PRIMARY KEY   AUTOINCREMENT,
            account_id INT,
            card_id INT);'''
     )
