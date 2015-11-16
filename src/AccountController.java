@@ -30,7 +30,7 @@ public class AccountController {
     }
     
     public void addAccountControls() {
-        account_view.submit.addActionListener(new ActionListener() {
+        account_view.signup_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 fname = account_view.fname_text.getText();
                 lname = account_view.lname_text.getText();
@@ -62,7 +62,7 @@ public class AccountController {
             }  
         });
         
-        account_view.cancel.addActionListener(new ActionListener() {
+        account_view.cancel_btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if(parent_frame.search_flow == null) {

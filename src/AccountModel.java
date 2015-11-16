@@ -16,6 +16,7 @@ public class AccountModel {
     String email;
     String username;
     String password;
+    int account_id;
     BookingModel[] listOfBookings;
     CreditCardModel[] cardInfo;
     float rewardMiles;
@@ -156,4 +157,12 @@ public class AccountModel {
     }
     
     public static void deleteAccount(){}
+
+    public int getAccountID() {
+        return account_id;
+    }
+
+    public void setAccountID(int account_id) {
+        this.account_id = account_id;
+    }
 }

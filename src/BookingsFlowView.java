@@ -31,6 +31,8 @@ public class BookingsFlowView extends JPanel {
     protected JButton return_btn, continue_btn;
     protected InfoPanel info_panel;
 
+    private CreditCardController credit_card_controller;
+
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
     private Border inner_border = BorderFactory.createCompoundBorder(
@@ -77,10 +79,9 @@ public class BookingsFlowView extends JPanel {
             this.add(return_btn);
         } else if (this.booking_state == 3) {
             pageThreeView();
-            info_panel = new InfoPanel();
-            this.add(info_panel);
-            this.add(continue_btn);
-            this.add(return_btn);
+        } else if (this.booking_state == 4) {
+            this.credit_card_controller = null;
+            pageFourView();
         }
     }
 
@@ -192,17 +193,51 @@ public class BookingsFlowView extends JPanel {
         JPanel outer_panel = new JPanel();
         JLabel flight_source = new JLabel(flights.get(0).getStartLocation());
 
-        flight_source.setBorder(empty_border);
+        flight_source.setBorder(inner_border);
 
 
         outer_panel.add(flight_source);
-        outer_panel.setBorder(inner_border);
+
+
 
         return outer_panel;
     }
 
     private void pageThreeView() {
 
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        credit_card_controller = new CreditCardController(Travlr.main_frame);
+        info_panel = new InfoPanel();
+        info_panel.setBorder(inner_border);
+        gbc.gridy = 0;
+        this.add(info_panel, gbc);
+
+        JPanel card_panel = new JPanel();
+        card_panel.add(credit_card_controller.card_view);
+        card_panel.setBorder(inner_border);
+        gbc.gridy++;
+        this.add(card_panel, gbc);
+
+        JPanel btn_panel = new JPanel();
+        btn_panel.add(return_btn);
+        btn_panel.add(continue_btn);
+        gbc.gridy++;
+        this.add(btn_panel, gbc);
+
+    }
+
+    private void pageFourView(){
+
+    }
+
+    protected void addPaymentToAccount(){
+        credit_card_controller.addCardToAccount();
+    }
+
+    protected void addPaymentToBooking(int booking_number){
+        credit_card_controller.addCardToBooking(booking_number);
     }
 
     public ArrayList<FlightModel> getFlightData() {

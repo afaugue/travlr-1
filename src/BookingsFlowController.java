@@ -70,6 +70,11 @@ public class BookingsFlowController {
                     booking_model.buildPersonalInsert();
                     booking_model.setBookingsPersonalFKID(booking_model.reserveBookingsPersonalFK());
                     booking_model.buildBookingsPersonalFKInsert();
+
+                    if (parent_frame.active_account_session){
+                        bookings_view.addPaymentToAccount();
+                    }
+                    bookings_view.addPaymentToBooking(booking_model.booking_id);
                     //booking_model.executePersonalInfoInsert();
                     //booking_model.executeBookingInsert();
                 }

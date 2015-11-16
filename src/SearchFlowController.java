@@ -107,6 +107,8 @@ public class SearchFlowController {
 
         search_view.search_submit_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                flight1 = null;
+                flight2 = null;
                 performBasicSearch();
             }
         });

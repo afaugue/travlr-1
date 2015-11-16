@@ -114,8 +114,8 @@ public class BookingModel {
     }
     protected static void cancelBooking(){}
 	/*
-	 * Users will be able to cancel their selected booking
-	 * under the right circumstances, users will be able to cancel flight and get full refund
+	 * Users will be able to return_btn their selected booking
+	 * under the right circumstances, users will be able to return_btn flight and get full refund
 	 */
 
 
