@@ -31,7 +31,8 @@ public class BookingsFlowView extends JPanel {
     protected JButton return_btn, continue_btn;
     protected InfoPanel info_panel;
 
-    private CreditCardController credit_card_controller;
+    private String[] bookingSummary;
+    protected CreditCardController credit_card_controller;
 
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -109,7 +110,7 @@ public class BookingsFlowView extends JPanel {
         }
         outer_panel.add(buildTax(),right_gbc);
         right_gbc.gridy++;
-        outer_panel.add(buildPriceSum(),right_gbc);
+        outer_panel.add(buildPriceSum(), right_gbc);
         right_gbc.gridy++;
 
 
@@ -218,6 +219,8 @@ public class BookingsFlowView extends JPanel {
         gbc.gridy++;
         this.add(card_panel, gbc);
 
+        //credit_card_controller.addCreditCardControls(continue_btn);
+
         JPanel btn_panel = new JPanel();
         btn_panel.add(return_btn);
         btn_panel.add(continue_btn);
@@ -227,7 +230,15 @@ public class BookingsFlowView extends JPanel {
     }
 
     private void pageFourView(){
-
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        for(int i=0; i<bookingSummary.length; i++){
+            JLabel summary_label = new JLabel(bookingSummary[i]);
+            this.add(summary_label, gbc);
+        }
+        this.revalidate();
+        this.repaint();
     }
 
     protected void addPaymentToAccount(){
@@ -255,6 +266,14 @@ public class BookingsFlowView extends JPanel {
 
     public void setBookingState(int booking_state) {
         this.booking_state = booking_state;
+    }
+
+    public String[] getBookingSummary() {
+        return bookingSummary;
+    }
+
+    public void setBookingSummary(String[] bookingSummary) {
+        this.bookingSummary = bookingSummary;
     }
 
     protected GridBagConstraints getConstraints(){

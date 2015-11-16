@@ -113,12 +113,6 @@ public class CreditCardView extends JPanel {
         c.gridx++;
         card_pane.add(discover,c);
         
-        submit = new JButton("Submit");
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 5;
-        card_pane.add(submit, c);
-        
         return card_pane;
    }
 }

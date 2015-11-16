@@ -109,11 +109,76 @@ public class BookingModel {
         insertDB(account_booking_fk_insert);
     }
 
+    protected String queryCardInfo(){
+        String card_info_query = ("select c.* from bookings_cards as bc "+
+                "join cards as c on bc.card_id=c.id where booking_id="+booking_id+";");
+        ResultSet rs = queryDB(card_info_query);
+        String output = handleQueryRequest(rs);
+        return output;
+    }
+
+    protected String queryBookingInfo(){
+        String account_info_query = ("select b.* from bookings as b where booking_id="+booking_id+";");
+        System.out.println(account_info_query);
+        ResultSet rs = queryDB(account_info_query);
+        String output = handleQueryRequest(rs);
+        return output;
+    }
+
+    protected String queryAccountInfo(){
+        String card_info_query = ("select a.* from accounts_bookings as ab join accounts as a on a.id=ab.account_id "+
+                " where booking_id="+booking_id+";");
+        ResultSet rs = queryDB(card_info_query);
+        String output = handleQueryRequest(rs);
+        return output;
+    }
+    protected String queryFlightInfo(){
+        String card_info_query = ("select f.id, s.short_name, d.short_name f.dt, f.price from flights_bookings as fb "+
+                "join flights as f on f.id=fb.flight_id join airports as s on s.id=f.src_id "+
+                "join airports as d on d.id=f.dest_id where booking_id="+booking_id+";");
+        ResultSet rs = queryDB(card_info_query);
+        String output = handleQueryRequest(rs);
+        return output;
+    }
+    protected String queryPersonalInfo(){
+        String card_info_query = ("select p.* from bookings_personalinfo as bp join personal_info as p on p.id=bp.personal_info_id "+
+                " where booking_id="+booking_id+";");
+        ResultSet rs = queryDB(card_info_query);
+        String output = handleQueryRequest(rs);
+        return output;
+    }
 
     protected String retrieveOutput(ResultSet rs){
         return rs.toString();
     }
     protected static void cancelBooking(){}
+
+    private String handleQueryRequest(ResultSet result_set){
+        try{
+            ResultSetMetaData md = result_set.getMetaData();
+            int columns = md.getColumnCount();
+            String out_string = "";
+
+            while (result_set.next()){
+                for (int i = 1; i<columns; i++){
+                    out_string = out_string + result_set.getObject(i).toString();
+                }
+                out_string += "\n";
+            }
+            System.out.println(out_string);
+            return out_string;
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                result_set.close();
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
 
     /********************************************************************************
      * Query Handlers                                                               *

@@ -9,6 +9,7 @@ import java.util.Map;
 ************************************************************************/
 public class Travlr extends JFrame {
     static ImagePanel logo_panel;
+    static JPanel image_panel;
     static Container middle_view, frame_content;
     static Travlr main_frame;
     static SearchFlowController search_flow;
@@ -43,6 +44,19 @@ public class Travlr extends JFrame {
 
         //frame_content.removeAll();
         //account_flow = new AccountController(main_frame,frame_content);
+
+        image_panel = new JPanel();
+        ImagePanel image1 = new ImagePanel(Travlr.class.getResource("images/0.jpg"));
+        ImagePanel image2 = new ImagePanel(Travlr.class.getResource("images/1.jpg"));
+        ImagePanel image3 = new ImagePanel(Travlr.class.getResource("images/2.jpg"));
+        ImagePanel image4 = new ImagePanel(Travlr.class.getResource("images/3.jpg"));
+        image_panel.setLayout(new GridBagLayout());
+        image_panel.add(image1, getFooterImageConstraints());
+        image_panel.add(image2, getFooterImageConstraints());
+        image_panel.add(image3, getFooterImageConstraints());
+        image_panel.add(image4, getFooterImageConstraints());
+        frame_content.add(image_panel,getFooterConstraints());
+
         main_frame.showFrame();
     }
 
@@ -96,7 +110,7 @@ public class Travlr extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.18;
+        gbc.weighty = 0.15;
         return gbc;
     }
 
@@ -108,6 +122,27 @@ public class Travlr extends JFrame {
         gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 0.7;
+        return gbc;
+    }
+
+    protected static GridBagConstraints getFooterConstraints(){
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.15;
+        return gbc;
+    }
+
+    protected static GridBagConstraints getFooterImageConstraints(){
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridy = 0;
+        gbc.weightx = 0.25;
+        gbc.weighty = 1.0;
         return gbc;
     }
 
