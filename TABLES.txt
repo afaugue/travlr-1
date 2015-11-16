@@ -147,6 +147,12 @@ sqlite> select a.*, b.* from accounts_bookings join accounts as a on account_id 
 sqlite> select pi.* from flights as f join flights_bookings as fb on fb.flight_id == f.id join bookings as b on fb.booking_id == b.id join personal_info as pi on pi.id == b.personal_info_id;
 1|Porky P Twerkins|05/15/1993|female|141 Piedmont Avenue|Apt. 2252|Atlanta|Georgia|30303|404-710-9222|porkyp@gmail.com
 
+# Get Info for All Credit Cards Tied to Admin Account
+select c.* from accounts_cards as ac join accounts as a on a.id=ac.account_id join cards as c on ac.card_id=c.id where a.username='admin';
+
+# Get CreditCard Information Used For Booking with id 7
+select c.* from bookings_cards as bc join bookings as b on b.id=bc.booking_id join cards as c on bc.card_id=c.id where booking_id=7;
+
 
 
 

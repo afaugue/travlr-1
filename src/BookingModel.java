@@ -27,31 +27,13 @@ public class BookingModel {
 
     public BookingModel() {}
 
+    public BookingModel(int flight_id1){
+        flight_ids = new int[] {flight_id1};
+    }
 
-    protected static void addAccount(AccountModel acc){}
-    /**
-     * Adds the Account to the Booking
-     */
-    
-    protected static void addFlight(FlightModel flight){}
-    /**
-     * Adds the Flight to the Booking. 
-     */
-    
-    protected static void addAncillary(Ancillary anc){}
-    /**
-     * Adds an Ancillary object to the booking.
-     */
-    
-    protected static void calculateTotalPrice(FlightModel f, Ancillary[] a){}
-    /**
-     * Iterates through the objects connected to the Booking in order to determine 
-     * prices for each component. Component prices are then added together and 
-     * set to the total_price of Bookings object. Then will promt the user for 
-	 * credit card infomation.
-	 * Precondtions: Credit card infomation is valid.
-	 * Postconditions: Charge credit card.
-     */
+    public BookingModel(int flight_id1, int flight_id2) {
+        flight_ids = new int[] {flight_id1, flight_id2};
+    }
 
     protected void buildBookingInsert(){
         this.bookings_insert = ("update bookings set seat_numbers='1A,2B', bags=2, ancillary_pkg_id=1"+
@@ -60,7 +42,6 @@ public class BookingModel {
         this.insertDB(this.bookings_insert);
     }
 
-
     protected int reserveBookingID(){
         String insert_string = ("insert into bookings(seat_numbers, bags, ancillary_pkg_id) VALUES (null, null, null);");
         this.insertDB(insert_string);
@@ -68,6 +49,15 @@ public class BookingModel {
         ResultSet rs = queryDB(query_string);
         int id = Integer.parseInt(handleReserveInsert(rs));
         return id;
+    }
+
+    protected void buildFlightsBookingsFKInsert(){
+        for (int i=0; i<flight_ids.length; i++){
+            String insert_string = ("insert into flights_bookings(flight_id, booking_id) VALUES "+
+                                    "("+flight_ids[i]+", "+booking_id+");");
+            System.out.println(insert_string);
+            this.insertDB(insert_string);
+        }
     }
 
     protected void buildPersonalInsert(){
@@ -97,8 +87,8 @@ public class BookingModel {
                 " where id="+Integer.toString(this.bookings_personal_fk_id)+";");
         System.out.println(this.booking_personal_fk_insert);
         this.insertDB(this.booking_personal_fk_insert);
-
     }
+
     protected int reserveBookingsPersonalFK(){
         String insert_string = ("insert into bookings_personalinfo(personal_info_id, booking_id) VALUES (null, null);");
         insertDB(insert_string);
@@ -108,16 +98,22 @@ public class BookingModel {
         return id;
     }
 
+    protected void buildAccountsBookingsFKInsert(){
+        if (account_id == 0){
+            System.out.println("No Account Connection found. Attaching Booking to admin account.");
+            account_id = 1;
+        }
+        String account_booking_fk_insert = ("insert into accounts_bookings(account_id, booking_id) VALUES"+
+                                            " ("+account_id+", "+booking_id+");");
+        System.out.println(account_booking_fk_insert);
+        insertDB(account_booking_fk_insert);
+    }
+
 
     protected String retrieveOutput(ResultSet rs){
         return rs.toString();
     }
     protected static void cancelBooking(){}
-	/*
-	 * Users will be able to return_btn their selected booking
-	 * under the right circumstances, users will be able to return_btn flight and get full refund
-	 */
-
 
     /********************************************************************************
      * Query Handlers                                                               *

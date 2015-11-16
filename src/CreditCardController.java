@@ -27,7 +27,15 @@ public class CreditCardController {
         card_model = new CreditCardModel();
         card_view = new CreditCardView();
         card_view.updateView();
-        addCreditCardControls();
+        //addCreditCardControls();
+    }
+
+    public CreditCardController(Travlr pframe, JButton control_btn) {
+        parent_frame = pframe;
+        card_model = new CreditCardModel();
+        card_view = new CreditCardView();
+        card_view.updateView();
+        addCreditCardControls(control_btn);
     }
 
     public CreditCardController(Travlr pframe, Container pcontain) {
@@ -36,18 +44,22 @@ public class CreditCardController {
         card_model = new CreditCardModel();
         card_view = new CreditCardView();
         card_view.updateView();
-        parent_container.add(card_view);
-        addCreditCardControls();
+        //parent_container.add(card_view);
+        //addCreditCardControls();
         
     }
 
 
     protected void addCardToAccount(){
         if (card_id == 0){
-            String cc_insert_string = ("insert into credit_card(num, cvv, company, name_on_card, expiration) VALUES "+
-                    "('"+card_num+"', '"+card_num+"', '"+card_type+"', '"+name_on_card+"','"+card_exp+"');");
+            String cc_insert_string = ("insert into cards(num, cvv, company, name_on_card, expiration) VALUES "+
+                    "('"+card_view.cardNum.getText()+"', '"+card_view.cardCVV.getText()+"', 'Visa', '"+
+                    card_view.nameCard.getText()+"','"+card_view.cardExp.getText()+"');");
+                    //"('"+card_num+"', '"+card_num+"', '"+card_type+"', '"+name_on_card+"','"+card_exp+"');");
+            System.out.println(cc_insert_string);
             insertDB(cc_insert_string);
             String query_string = ("select max(id) from cards;");
+            System.out.println(query_string);
             ResultSet rs = queryDB(query_string);
             card_id = Integer.parseInt(handleReserveInsert(rs));
         }
@@ -58,24 +70,29 @@ public class CreditCardController {
             account_id = parent_frame.account_flow.account_model.getAccountID();
         }
         String account_card_fk_insert = ("insert into accounts_cards(account_id, card_id) VALUES ("+account_id+","+card_id+");");
+        System.out.println(account_card_fk_insert);
         insertDB(account_card_fk_insert);
     }
 
     protected void addCardToBooking(int booking_id){
         this.booking_id = booking_id;
         if (card_id == 0){
-            String cc_insert_string = ("insert into credit_card(num, cvv, company, name_on_card, expiration) VALUES "+
-                    "('"+card_num+"', '"+card_num+"', '"+card_type+"', '"+name_on_card+"','"+card_exp+"');");
+            String cc_insert_string = ("insert into cards(num, cvv, company, name_on_card, expiration) VALUES "+
+                    "('"+card_view.cardNum.getText()+"', '"+card_view.cardCVV.getText()+"', 'Visa', '"+
+                    card_view.nameCard.getText()+"','"+card_view.cardExp.getText()+"');");
             insertDB(cc_insert_string);
+            System.out.println(cc_insert_string);
             String query_string = ("select max(id) from cards;");
+            System.out.println(query_string);
             ResultSet rs = queryDB(query_string);
             card_id = Integer.parseInt(handleReserveInsert(rs));
         }
         String booking_card_fk_insert = ("insert into bookings_cards(booking_id, card_id) VALUES ("+booking_id+","+card_id+");");
+        System.out.println(booking_card_fk_insert);
         insertDB(booking_card_fk_insert);
     }
 
-    public void addCreditCardControls() {
+    public void addCreditCardControls(JButton input_button) {
        card_view.submit.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent actionEvent) {
                card_num = card_view.cardNum.getText();
@@ -96,7 +113,7 @@ public class CreditCardController {
                            countCVV++;
                        }
                    }
-                   boolean check = false;
+                   /*boolean check = false;
                    int month = Integer.parseInt(card_exp.substring(0, 2));
                    int year = Integer.parseInt(card_exp.substring(3, 5));
                    if (card_exp.matches("([0-1]{1})([0-9]{1})/([1-2]{1})([0-9]{1})")) {
@@ -113,7 +130,7 @@ public class CreditCardController {
                        }
                    } else {
                        JOptionPane.showMessageDialog(card_view.card_pane, "Invalid Credit Card");
-                   }
+                   }*/
                }
                if (card_view.mastercard.isSelected()) {
                    card_type = "Mastercard";

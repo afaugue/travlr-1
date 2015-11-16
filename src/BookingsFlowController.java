@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,8 +8,7 @@ public class BookingsFlowController {
     Container parent_container;
     Travlr parent_frame;
     BookingModel booking_model;
-    CreditCardController card_control;
-  
+
 
     /*******************************************************************
      * Name:    SearchFlowController()    :   Constructor               *
@@ -20,11 +20,10 @@ public class BookingsFlowController {
     public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1){
         parent_frame = pframe;
         parent_container = pcontain;
-        booking_model = new BookingModel();
+        booking_model = new BookingModel(Integer.parseInt(f1.flight_id));
         bookings_view = new BookingsFlowView(f1);
         addReturnControl();
         addContinueControl();
-        //card_control = new CreditCardController(parent_frame, pcontain);
         parent_container.revalidate();
         parent_container.repaint();
     }
@@ -32,10 +31,12 @@ public class BookingsFlowController {
     public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1, FlightModel f2){
         parent_frame = pframe;
         parent_container = pcontain;
-        booking_model = new BookingModel();
+        booking_model = new BookingModel(Integer.parseInt(f1.flight_id), Integer.parseInt(f2.flight_id));
         bookings_view = new BookingsFlowView(f1, f2);
         addReturnControl();
-        //card_control = new CreditCardController(parent_frame, pcontain);
+        addContinueControl();
+        parent_container.revalidate();
+        parent_container.repaint();
     }
 
     private void addContinueControl(){
@@ -45,15 +46,18 @@ public class BookingsFlowController {
                 /*    booking_model.setSeatNumbers(bookings_view.getSeatNumbers());
                     booking_model.setBags(bookings_view.getBags());
                     booking_model.setAncillaries(bookings_view.getAncillaries());*/
+
+                    // Create Booking in Database
                     booking_model.setBookingId(booking_model.reserveBookingID());
                     booking_model.buildBookingInsert();
-                } else if (bookings_view.getBookingState() ==3){
-                    booking_model.setName(bookings_view.info_panel.getFName().getText()+" "+
-                                          bookings_view.info_panel.getMI().getText()+" "+
-                                          bookings_view.info_panel.getLName().getText());
-                    booking_model.setDOB(bookings_view.info_panel.getDOB_Month().getSelectedItem().toString()+"/"+
-                                         bookings_view.info_panel.getDOB_Day().getSelectedItem().toString()+"/"+
-                                         bookings_view.info_panel.getDOB_Year().getSelectedItem().toString());
+                    booking_model.buildFlightsBookingsFKInsert();
+                } else if (bookings_view.getBookingState() == 3){
+                    booking_model.setName(bookings_view.info_panel.getFName().getText() + " " +
+                            bookings_view.info_panel.getMI().getText() + " " +
+                            bookings_view.info_panel.getLName().getText());
+                    booking_model.setDOB(bookings_view.info_panel.getDOB_Month().getSelectedItem().toString() + "/" +
+                            bookings_view.info_panel.getDOB_Day().getSelectedItem().toString() + "/" +
+                            bookings_view.info_panel.getDOB_Year().getSelectedItem().toString());
                     if (bookings_view.info_panel.getGender_Male().isCursorSet()){
                         booking_model.setGender("Male");
                     } else {
@@ -66,15 +70,28 @@ public class BookingsFlowController {
                     booking_model.setEmail(bookings_view.info_panel.getEmail().getText());
                     booking_model.setPhone(bookings_view.info_panel.getPhone().getText());
 
+                    // Create PersonalInfo entry in Database
                     booking_model.setPersonalInfoId(booking_model.reservePersonalInfoID());
                     booking_model.buildPersonalInsert();
+
+                    // Attach PersonalInfo entry to previously created Booking entry
                     booking_model.setBookingsPersonalFKID(booking_model.reserveBookingsPersonalFK());
                     booking_model.buildBookingsPersonalFKInsert();
 
-                    if (parent_frame.active_account_session){
-                        bookings_view.addPaymentToAccount();
+                    // Attach Booking to Account if logged in, otherwise attach to admin/guest account.
+                    if (parent_frame.account_flow == null){
+                        booking_model.setAccountId(0);
+                    } else {
+                        booking_model.setAccountId(parent_frame.account_flow.account_model.getAccountID());
                     }
+                    booking_model.buildAccountsBookingsFKInsert();
+
+                    // Create Entries for Card and Attach to Booking & Account (Done through CardController)
+                    bookings_view.addPaymentToAccount();
                     bookings_view.addPaymentToBooking(booking_model.booking_id);
+
+                    //bookings_view.continue_btn = new JButton("Continue");
+                    //  addContinueControl();
                     //booking_model.executePersonalInfoInsert();
                     //booking_model.executeBookingInsert();
                 }
@@ -90,7 +107,6 @@ public class BookingsFlowController {
         bookings_view.return_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 parent_frame.returnSearchFlow();
-
             }
         });
     }

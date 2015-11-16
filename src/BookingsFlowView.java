@@ -189,7 +189,7 @@ public class BookingsFlowView extends JPanel {
         return flight_panel;
     }
 
-    private JPanel pageTwoView() {
+    private void pageTwoView() {
         JPanel outer_panel = new JPanel();
         JLabel flight_source = new JLabel(flights.get(0).getStartLocation());
 
@@ -198,9 +198,7 @@ public class BookingsFlowView extends JPanel {
 
         outer_panel.add(flight_source);
 
-
-
-        return outer_panel;
+        this.add(outer_panel);
     }
 
     private void pageThreeView() {
@@ -208,7 +206,7 @@ public class BookingsFlowView extends JPanel {
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        credit_card_controller = new CreditCardController(Travlr.main_frame);
+        credit_card_controller = new CreditCardController(Travlr.main_frame, continue_btn);
         info_panel = new InfoPanel();
         info_panel.setBorder(inner_border);
         gbc.gridy = 0;
@@ -233,10 +231,12 @@ public class BookingsFlowView extends JPanel {
     }
 
     protected void addPaymentToAccount(){
+        System.out.println("AddingCardToAccount.");
         credit_card_controller.addCardToAccount();
     }
 
     protected void addPaymentToBooking(int booking_number){
+        System.out.println("AddingCardToBooking");
         credit_card_controller.addCardToBooking(booking_number);
     }
 
