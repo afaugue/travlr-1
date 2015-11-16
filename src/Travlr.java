@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.print.Book;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /***********************************************************************
 * Name:    Travlr      :   Class                                       *
@@ -45,7 +47,7 @@ public class Travlr extends JFrame {
         //frame_content.removeAll();
         //account_flow = new AccountController(main_frame,frame_content);
 
-        image_panel = new JPanel();
+        image_panel = new IconPanel();/*new JPanel();
         ImagePanel image1 = new ImagePanel(Travlr.class.getResource("images/0.jpg"));
         ImagePanel image2 = new ImagePanel(Travlr.class.getResource("images/1.jpg"));
         ImagePanel image3 = new ImagePanel(Travlr.class.getResource("images/2.jpg"));
@@ -54,7 +56,7 @@ public class Travlr extends JFrame {
         image_panel.add(image1, getFooterImageConstraints());
         image_panel.add(image2, getFooterImageConstraints());
         image_panel.add(image3, getFooterImageConstraints());
-        image_panel.add(image4, getFooterImageConstraints());
+        image_panel.add(image4, getFooterImageConstraints());*/
         frame_content.add(image_panel,getFooterConstraints());
 
         main_frame.showFrame();
@@ -181,6 +183,17 @@ public class Travlr extends JFrame {
     * Purpose:                                                         *
     ********************************************************************/
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Travlr.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Travlr.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Travlr.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Travlr.class.getName()).log(Level.SEVERE, null, ex);
+        }
         javax.swing.SwingUtilities.invokeLater( new Runnable() {
             public void run(){
                 runApplication();
