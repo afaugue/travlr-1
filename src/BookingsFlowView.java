@@ -219,8 +219,6 @@ public class BookingsFlowView extends JPanel {
         gbc.gridy++;
         this.add(card_panel, gbc);
 
-        //credit_card_controller.addCreditCardControls(continue_btn);
-
         JPanel btn_panel = new JPanel();
         btn_panel.add(return_btn);
         btn_panel.add(continue_btn);

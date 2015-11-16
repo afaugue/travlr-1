@@ -14,8 +14,9 @@ import java.net.URL;
 public class ImagePanel extends JPanel {
 
     private BufferedImage image;
-    protected JButton account_btn;
+    protected JButton account_btn, info_btn;
     protected Travlr parent_frame = Travlr.main_frame;
+    protected AccountView acct_view;
 
     public ImagePanel(URL file_path) {
         try {
@@ -42,8 +43,11 @@ public class ImagePanel extends JPanel {
         this.setLayout(new BorderLayout());
         if (session_active_status){
             account_btn = new JButton("Logout");
+            info_btn = new JButton("User Information");
+            btn_panel.add(info_btn);
         } else {
             account_btn = new JButton("Login");
+            info_btn = new JButton();
         }
         btn_panel.add(account_btn);
         btn_panel.setOpaque(false);
@@ -55,18 +59,26 @@ public class ImagePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (parent_frame.getAccountSessionStatus()){
-                    parent_frame.setAccountSessionStatus(true);
+                    parent_frame.setAccountSessionStatus(false);
                     account_btn.setText("Logout");
                     parent_frame.account_flow = null;
                     parent_frame.returnSearchFlow();
+                    parent_frame.revalidate();
+                    parent_frame.repaint();
                 } else {
                     parent_frame.startAccountFlow();
-                    parent_frame.setAccountSessionStatus(false);
+                    parent_frame.setAccountSessionStatus(true);
                     account_btn.setText("Login");
                     parent_frame.revalidate();
                     parent_frame.repaint();
                 }
             }
         });
+        info_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                parent_frame.enterAccountFlow();
+            }
+        });
+        
     }
 }

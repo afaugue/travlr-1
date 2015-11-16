@@ -47,7 +47,8 @@ public class Travlr extends JFrame {
         //frame_content.removeAll();
         //account_flow = new AccountController(main_frame,frame_content);
 
-        image_panel = new IconPanel();/*new JPanel();
+        //image_panel = new IconPanel();/*new JPanel();
+        image_panel = new JPanel();
         ImagePanel image1 = new ImagePanel(Travlr.class.getResource("images/0.jpg"));
         ImagePanel image2 = new ImagePanel(Travlr.class.getResource("images/1.jpg"));
         ImagePanel image3 = new ImagePanel(Travlr.class.getResource("images/2.jpg"));
@@ -56,7 +57,7 @@ public class Travlr extends JFrame {
         image_panel.add(image1, getFooterImageConstraints());
         image_panel.add(image2, getFooterImageConstraints());
         image_panel.add(image3, getFooterImageConstraints());
-        image_panel.add(image4, getFooterImageConstraints());*/
+        image_panel.add(image4, getFooterImageConstraints());
         frame_content.add(image_panel,getFooterConstraints());
 
         main_frame.showFrame();
@@ -64,7 +65,7 @@ public class Travlr extends JFrame {
 
     public static void startSearchFlow(){
         search_flow = new SearchFlowController(main_frame, frame_content);
-        frame_content.add(search_flow.search_view, getViewContstraints());
+        frame_content.add(search_flow.search_view, getViewConstraints());
         //main_frame.setSize(new Dimension(800,800));
         //main_frame.setMinimumSize(new Dimension(800,800));
         main_frame.revalidate();
@@ -72,8 +73,17 @@ public class Travlr extends JFrame {
     }
 
     public void returnSearchFlow(){
+        for (int i=1; i<frame_content.getComponentCount(); i++){
+            frame_content.remove(i);
+        }
+        frame_content.add(search_flow.search_view, getViewConstraints());
+        frame_content.validate();
+        frame_content.repaint();
+    }
+    
+    public void enterAccountFlow() {
         frame_content.remove(1);
-        frame_content.add(search_flow.search_view, getViewContstraints());
+        frame_content.add(account_flow.account_view.accountInfo(), getViewConstraints());
         frame_content.validate();
         frame_content.repaint();
     }
@@ -81,7 +91,7 @@ public class Travlr extends JFrame {
     public void startBookingsFlow(FlightModel f1){
         frame_content.remove(search_flow.search_view);
         bookings_flow = new BookingsFlowController(main_frame, frame_content, f1);
-        frame_content.add(bookings_flow.bookings_view, getViewContstraints());
+        frame_content.add(bookings_flow.bookings_view, getViewConstraints());
         frame_content.revalidate();
         frame_content.repaint();
     }
@@ -89,7 +99,7 @@ public class Travlr extends JFrame {
     public void startBookingsFlow(FlightModel f1, FlightModel f2) {
         frame_content.remove(search_flow.search_view);
         bookings_flow = new BookingsFlowController(main_frame, frame_content, f1, f2);
-        frame_content.add(bookings_flow.bookings_view, getViewContstraints());
+        frame_content.add(bookings_flow.bookings_view, getViewConstraints());
         frame_content.revalidate();
         frame_content.repaint();
     }
@@ -99,7 +109,7 @@ public class Travlr extends JFrame {
             frame_content.remove(i);
         }
         account_flow = new AccountController(main_frame, frame_content);
-        frame_content.add(account_flow.account_view, getViewContstraints());
+        frame_content.add(account_flow.account_view, getViewConstraints());
         frame_content.revalidate();
         frame_content.repaint();
     }
@@ -116,7 +126,7 @@ public class Travlr extends JFrame {
         return gbc;
     }
 
-    protected static GridBagConstraints getViewContstraints(){
+    protected static GridBagConstraints getViewConstraints(){
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.BOTH;

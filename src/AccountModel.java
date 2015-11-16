@@ -16,9 +16,9 @@ public class AccountModel {
     String email;
     String username;
     String password;
+    String login;
+    String pass;
     int account_id;
-    BookingModel[] listOfBookings;
-    CreditCardModel[] cardInfo;
     float rewardMiles;
     
     public AccountModel(){}
@@ -67,6 +67,23 @@ public class AccountModel {
 	 * from 100,001 and greater = platinum member
 	 */	
     
+    public boolean checkLogin(String login, String pass) {
+        this.login = login;
+        this.pass = pass;
+        boolean check = false;
+        String query_string = ("select * from accounts where username = '"+login+"' and password = '"+pass+"';");
+        ResultSet result_set = queryDB(query_string);
+        try {
+            while(result_set.next()) {
+                check = true;
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return check;
+    }
+    
     
     public boolean addAccountToDatabase(String firstName, String lastName, String email, String username, String password){
         this.firstName = firstName;
@@ -80,7 +97,7 @@ public class AccountModel {
         return status;
     }
     
-    private ResultSet queryDB(String query_string) {
+    protected ResultSet queryDB(String query_string) {
         Connection connection = null;
         ResultSet result_set = null;
         Statement statement = null;

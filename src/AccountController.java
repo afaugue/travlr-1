@@ -7,7 +7,7 @@ public class AccountController {
     Container parent_container;
     Travlr parent_frame;
     AccountModel account_model;
-    String fname, lname, email, user, pass, conf_pass;
+    String fname, lname, email, user, pass, conf_pass, login, password;
     CreditCardController card_control;
     SearchFlowController search_control;
     
@@ -39,7 +39,7 @@ public class AccountController {
                 pass = account_view.password_text.getText();
                 conf_pass = account_view.confirm_pass.getText();
                 boolean check = true;
-                if(!email.contains("@")) {
+                if(!email.contains("@") && !email.contains(".")) {
                     JOptionPane.showMessageDialog(account_view.account_pane, "Invalid email address");
                     check = false;
                 }
@@ -75,6 +75,26 @@ public class AccountController {
             }
         });
 
+        account_view.login_btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                login = account_view.login_user_input.getText();
+                password = account_view.password_input.getText();
+                boolean success = account_model.checkLogin(login, password);
+                if(success) {
+                    JOptionPane.showMessageDialog(account_view.login_pane, "Welcome back " + login);
+                    parent_frame.setAccountSessionStatus(true);
+                    parent_frame.logo_panel.removeAll();
+                    parent_frame.logo_panel.addAccountButton(success);
+                    parent_frame.logo_panel.addAccountButtonControls();
+                    parent_frame.logo_panel.revalidate();
+                    parent_frame.logo_panel.repaint();
+                    parent_frame.returnSearchFlow();
+                }
+                else {
+                    JOptionPane.showMessageDialog(account_view.login_pane, "Invalid Login");
+                }
+            }
+        });
 
     }
 }

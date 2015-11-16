@@ -1,16 +1,19 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.sql.*;
+import java.util.*;
 
 public class AccountView extends JPanel{
     String display;
-    JPanel account_pane, login_pane;
+    JPanel account_pane, login_pane, info_pane;
     JLabel first_name, last_name, email, user_name, password, conf_pass;
-    JTextField fname_text, lname_text, email_text, user_text;
-    JPasswordField password_text, confirm_pass;
+    JTextField fname_text, lname_text, email_text, user_text, login_user_input;
+    JPasswordField password_text, confirm_pass, password_input;
     Font font1 = new Font("SansSerif", Font.BOLD, 20);
     GridBagConstraints gbc;
     protected JButton signup_btn, cancel_btn, login_btn;
+    AccountModel acct_model;
 
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -61,7 +64,7 @@ public class AccountView extends JPanel{
         login_user_label.setFont(font1);
         login_pane.add(login_user_label, gbc);
 
-        JTextField login_user_input = new JTextField(15);
+        login_user_input = new JTextField(15);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -78,7 +81,7 @@ public class AccountView extends JPanel{
         password_label.setFont(font1);
         login_pane.add(password_label, gbc);
 
-        JPasswordField password_input = new JPasswordField(15);
+        password_input = new JPasswordField(15);
         gbc.gridx = 1;
         gbc.gridwidth = 4;
         gbc.insets = new Insets(5,80,5,10);
@@ -218,6 +221,25 @@ public class AccountView extends JPanel{
         account_pane.setBorder(inner_border);
 
         return account_pane;
+    }
+    
+    protected JPanel accountInfo() {
+        info_pane = new JPanel();
+        acct_model = new AccountModel();
+        JTable table = new JTable();
+        String query_string = ("select * from accounts");
+        ResultSet rs = acct_model.queryDB(query_string);
+        ArrayList columnNames = new ArrayList();
+        try {
+            while(rs.next()) {
+                
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return info_pane;
     }
     
 }
