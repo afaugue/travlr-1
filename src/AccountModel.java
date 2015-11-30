@@ -19,7 +19,8 @@ public class AccountModel {
     String login;
     String pass;
     int account_id;
-    float rewardMiles;
+    float rewardMiles = 0;
+    
     
     public AccountModel(){}
     
@@ -155,7 +156,7 @@ public class AccountModel {
             
             String insert_string= ( "insert into accounts (fname, lname, email, username, password, reward_miles)"+
                                     " VALUES ('"+firstName+"', '"+lastName+"', '"+email+"', '"+username+"', '"+
-                                    password+"', 0)");
+                                    password+"', '"+rewardMiles+"')");
             insertDB(insert_string);
             return true;
         }

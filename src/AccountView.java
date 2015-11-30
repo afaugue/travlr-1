@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.sql.*;
 import java.util.*;
+import javax.swing.table.DefaultTableModel;
 
 public class AccountView extends JPanel{
     String display;
@@ -226,14 +227,38 @@ public class AccountView extends JPanel{
     protected JPanel accountInfo() {
         info_pane = new JPanel();
         acct_model = new AccountModel();
+        JScrollPane scrollPane;
         JTable table = new JTable();
-        String query_string = ("select * from accounts");
+        DefaultTableModel models;
+        String query_string = ("select * from accounts where username = '"+Travlr.main_frame.account_flow.account_model.login+"';");
+        System.out.println(query_string);
         ResultSet rs = acct_model.queryDB(query_string);
-        ArrayList columnNames = new ArrayList();
+        Vector columnNames = new Vector();
+        Vector data = new Vector();
         try {
+            columnNames.add("first_name");
+            columnNames.add("last_name");
+            columnNames.add("email");
+            columnNames.add("username");
+            columnNames.add("password");
+            columnNames.add("reward_miles");
+            
             while(rs.next()) {
+                Vector info = new Vector();
+                info.add(rs.getString("fname"));
+                info.add(rs.getString("lname"));
+                info.add(rs.getString("email"));
+                info.add(rs.getString("username"));
+                info.add(rs.getString("password"));
+                info.add("reward_miles");
                 
+                data.add(info);
             }
+            
+            models = new DefaultTableModel(data, columnNames);
+            table.setModel(models);
+            scrollPane = new JScrollPane(table);
+            info_pane.add(scrollPane);
         }
         catch (Exception e)
         {

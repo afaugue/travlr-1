@@ -75,9 +75,15 @@ public class BookingsFlowView extends JPanel {
             gbc.gridy = 2;
             this.add(return_btn,gbc);
         } else if (this.booking_state == 2) {
-            pageTwoView();
-            this.add(continue_btn);
-            this.add(return_btn);
+            GridBagConstraints gbc = new GridBagConstraints();
+            this.setLayout(new GridBagLayout());
+
+            this.add(pageTwoView(), gbc);
+            gbc.gridy = 1;
+            this.add(continue_btn,gbc);
+            gbc.gridy = 2;
+            this.add(return_btn, gbc);
+            gbc.gridy = 3;
         } else if (this.booking_state == 3) {
             pageThreeView();
         } else if (this.booking_state == 4) {
@@ -190,16 +196,25 @@ public class BookingsFlowView extends JPanel {
         return flight_panel;
     }
 
-    private void pageTwoView() {
+    private JPanel pageTwoView() {
         JPanel outer_panel = new JPanel();
-        JLabel flight_source = new JLabel(flights.get(0).getStartLocation());
+        //outer_panel.setLayout(new GridBagLayout());
 
-        flight_source.setBorder(inner_border);
+        JLabel hotel_info = new JLabel("Hotels");
+        JLabel carRental_info = new JLabel("Cars");
+        JLabel food_coma = new JLabel("Food");
 
+        hotel_info.setBorder(empty_border);
+        carRental_info.setBorder(empty_border);
+        food_coma.setBorder(empty_border);
 
-        outer_panel.add(flight_source);
+        outer_panel.add(hotel_info);
+        outer_panel.add(carRental_info);
+        outer_panel.add(food_coma);
+        //outer_panel.setBorder(inner_border);
 
-        this.add(outer_panel);
+        outer_panel.setBorder(inner_border);
+        return outer_panel;
     }
 
     private void pageThreeView() {
@@ -218,6 +233,8 @@ public class BookingsFlowView extends JPanel {
         card_panel.setBorder(inner_border);
         gbc.gridy++;
         this.add(card_panel, gbc);
+
+        //credit_card_controller.addCreditCardControls(continue_btn);
 
         JPanel btn_panel = new JPanel();
         btn_panel.add(return_btn);
