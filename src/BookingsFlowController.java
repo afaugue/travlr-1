@@ -20,7 +20,7 @@ public class BookingsFlowController {
     public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1){
         parent_frame = pframe;
         parent_container = pcontain;
-        booking_model = new BookingModel(Integer.parseInt(f1.flight_id));
+        booking_model = new BookingModel(f1.getFlightID());
         bookings_view = new BookingsFlowView(f1);
         addReturnControl();
         addContinueControl();
@@ -31,7 +31,7 @@ public class BookingsFlowController {
     public BookingsFlowController(Travlr pframe, Container pcontain, FlightModel f1, FlightModel f2){
         parent_frame = pframe;
         parent_container = pcontain;
-        booking_model = new BookingModel(Integer.parseInt(f1.flight_id), Integer.parseInt(f2.flight_id));
+        booking_model = new BookingModel(f1.getFlightID(), f2.getFlightID());
         bookings_view = new BookingsFlowView(f1, f2);
         addReturnControl();
         addContinueControl();
@@ -91,7 +91,7 @@ public class BookingsFlowController {
 
                         // Create Entries for Card and Attach to Booking & Account (Done through CardController)
                         bookings_view.addPaymentToAccount();
-                        bookings_view.addPaymentToBooking(booking_model.booking_id);
+                        bookings_view.addPaymentToBooking(booking_model.getBookingId());
 
                         //bookings_view.continue_btn = new JButton("Continue");
                         //  addContinueControl();

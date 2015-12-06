@@ -24,7 +24,8 @@ public class SearchFlowController {
     Container parent_container;
     Travlr parent_frame;
     SearchModel search_model;
-    FlightModel flight1, flight2;
+    FlightModel flight1;
+    FlightModel flight2;
     GridBagConstraints search_view_constraints;
     String[] locations;
     ArrayList<Map> flight_data;

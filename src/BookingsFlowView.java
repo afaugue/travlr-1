@@ -177,7 +177,7 @@ public class BookingsFlowView extends JPanel {
     private JPanel generateFlightPanel(FlightModel input_flight){
         JPanel flight_panel = new JPanel();
 
-        JLabel flight_id = new JLabel(input_flight.getFlightID());
+        JLabel flight_id = new JLabel(Integer.toString(input_flight.getFlightID()));
         JLabel airport_info = new JLabel(input_flight.getStartLocation() + " -- "+input_flight.getDateTime()+" --> "+input_flight.getDestLocation());
         //JLabel date_info = new JLabel(input_flight.getDateTime());
         //JLabel price_info = new JLabel(input_flight.getSeatPrice().toString());
@@ -298,27 +298,5 @@ public class BookingsFlowView extends JPanel {
         gbc.weighty = 1;
         return gbc;
     }
-
-    //public Flight getFlightObject(String id) { return new Flight(); }
-    /**
-     * Retrieves a flight object for a given id.
-     */
-
-    public static void updateBookingState(int state){}
-    /**
-     * Moves between different pages of the booking flow.
-     * AccountView displayed_view = getStateView(flight, state);
-     */
-
-    public void addBookingToDatabase(){}
-    /**
-     * Adds the booking item to the booking database.
-     */
-
-    public int lockSeatOnFlight(FlightModel flight, String seat_id){ return 0; }
-    /**
-     * Creates a database lock on the selected seats on the Flight object.
-     * This prevents multiple users from trying to Book the same seat.
-     */
 
 }

@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.print.Book;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,15 +8,16 @@ import java.util.logging.Logger;
 * Purpose:
 ************************************************************************/
 public class Travlr extends JFrame {
-    static ImagePanel logo_panel;
-    static JPanel image_panel;
-    static Container middle_view, frame_content;
-    static Travlr main_frame;
-    static SearchFlowController search_flow;
-    static BookingsFlowController bookings_flow;
-    static AccountController account_flow;
+    protected static ImagePanel logo_panel;
+    protected static JPanel image_panel;
+    protected static Container middle_view;
+    protected static Container frame_content;
+    protected static Travlr main_frame;
+    protected static SearchFlowController search_flow;
+    protected static BookingsFlowController bookings_flow;
+    protected static AccountController account_flow;
 
-    static boolean active_account_session = false;
+    protected static boolean active_account_session = false;
 
     /*******************************************************************
     * Name:     Travlr()   :   Constructor                             *
@@ -162,7 +161,7 @@ public class Travlr extends JFrame {
     * Name:    setDefaults()   :   Method                              *
     * Purpose:                                                         *
     ********************************************************************/
-    public void setDefaults(){
+    private void setDefaults(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(800, 800));
         JPanel root = new JPanel();
@@ -174,7 +173,7 @@ public class Travlr extends JFrame {
     * Name:    showFrame()  :   Method                                 *
     * Purpose:                                                         *
     *******************************************************************/
-    public void showFrame(){
+    private void showFrame(){
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);

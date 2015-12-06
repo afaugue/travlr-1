@@ -1,26 +1,44 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.sql.*;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 
 public class AccountView extends JPanel{
-    String display;
-    JPanel account_pane, login_pane, info_pane;
-    JLabel first_name, last_name, email, user_name, password, conf_pass;
-    JTextField fname_text, lname_text, email_text, user_text, login_user_input;
-    JPasswordField password_text, confirm_pass, password_input;
-    Font font1 = new Font("SansSerif", Font.BOLD, 20);
-    GridBagConstraints gbc;
-    protected JButton signup_btn, cancel_btn, login_btn;
-    AccountModel acct_model;
+    private String display;
+    private ArrayList<HashMap<String,String>> accout_data = new ArrayList<>();
+
+    private AccountModel acct_model;
+
+    protected JPanel account_pane;
+    protected JPanel login_pane;
+    protected JPanel info_pane;
+    protected JLabel first_name;
+    protected JLabel last_name;
+    protected JLabel email;
+    protected JLabel user_name;
+    protected JLabel password;
+    protected JLabel conf_pass;
+    protected JButton signup_btn;
+    protected JButton cancel_btn;
+    protected JButton login_btn;
+    protected JTextField fname_text;
+    protected JTextField lname_text;
+    protected JTextField email_text;
+    protected JTextField user_text;
+    protected JTextField login_user_input;
+    protected JPasswordField password_text;
+    protected JPasswordField confirm_pass;
+    protected JPasswordField password_input;
 
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
     private Border border = BorderFactory.createLineBorder(Color.BLACK);
     private Border inner_border = BorderFactory.createCompoundBorder(
             empty_border,
             border);
+
+    private GridBagConstraints gbc;
+    private Font font1 = new Font("SansSerif", Font.BOLD, 20);
 
     public AccountView()
     {
@@ -226,13 +244,10 @@ public class AccountView extends JPanel{
     
     protected JPanel accountInfo() {
         info_pane = new JPanel();
-        acct_model = new AccountModel();
+        acct_model = Travlr.account_flow.account_model;
         JScrollPane scrollPane;
         JTable table = new JTable();
         DefaultTableModel models;
-        String query_string = ("select * from accounts where username = '"+Travlr.main_frame.account_flow.account_model.login+"';");
-        System.out.println(query_string);
-        ResultSet rs = acct_model.queryDB(query_string);
         Vector columnNames = new Vector();
         Vector data = new Vector();
         try {
@@ -240,21 +255,17 @@ public class AccountView extends JPanel{
             columnNames.add("last_name");
             columnNames.add("email");
             columnNames.add("username");
-            columnNames.add("password");
             columnNames.add("reward_miles");
-            
-            while(rs.next()) {
-                Vector info = new Vector();
-                info.add(rs.getString("fname"));
-                info.add(rs.getString("lname"));
-                info.add(rs.getString("email"));
-                info.add(rs.getString("username"));
-                info.add(rs.getString("password"));
-                info.add("reward_miles");
-                
-                data.add(info);
-            }
-            
+
+            Vector info = new Vector();
+            info.add(acct_model.getFirstName());
+            info.add(acct_model.getLastName());
+            info.add(acct_model.getEmail());
+            info.add(acct_model.getUsername());
+            info.add(acct_model.getRewardMiles());
+
+            data.add(info);
+
             models = new DefaultTableModel(data, columnNames);
             table.setModel(models);
             for (int i=0; i<columnNames.size(); i++){
@@ -269,5 +280,4 @@ public class AccountView extends JPanel{
         }
         return info_pane;
     }
-    
 }

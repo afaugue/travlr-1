@@ -14,16 +14,28 @@ import java.sql.*;
  *
  */
 public class BookingModel {
-    String fullname, dob, gender, address, state, city, zip, email, phone;
-    int account_id, personal_info_id, booking_id, ancillaries_id;
-    int bookings_personal_fk_id;
-    int[] flight_ids;
-    Ancillary[] ancillaries;
-    String[] seat_numbers;
-    int bags;
+    private String fullname;
+    private String dob;
+    private String gender;
+    private String address;
+    private String state;
+    private String city;
+    private String zip;
+    private String email;
+    private String phone;
+    private int bags;
+    private int account_id;
+    private int personal_info_id;
+    private int booking_id;
+    private int ancillary_pkg_id;
+    private int bookings_personal_fk_id;
+    private int[] flight_ids;
+    private Ancillary[] ancillaries;
+    private String[] seat_numbers;
 
-    private String bookings_insert, personal_info_insert, booking_personal_fk_insert;
-    private String booking_flights_fk_insert, booking_account_fk_insert;
+    private String bookings_insert;
+    private String personal_info_insert;
+    private String booking_personal_fk_insert;
 
     public BookingModel() {}
 
@@ -132,6 +144,7 @@ public class BookingModel {
         String output = handleQueryRequest(rs);
         return output;
     }
+
     protected String queryFlightInfo(){
         String card_info_query = ("select f.id, s.short_name, d.short_name f.dt, f.price from flights_bookings as fb "+
                 "join flights as f on f.id=fb.flight_id join airports as s on s.id=f.src_id "+
@@ -140,6 +153,7 @@ public class BookingModel {
         String output = handleQueryRequest(rs);
         return output;
     }
+
     protected String queryPersonalInfo(){
         String card_info_query = ("select p.* from bookings_personalinfo as bp join personal_info as p on p.id=bp.personal_info_id "+
                 " where booking_id="+booking_id+";");
@@ -151,6 +165,7 @@ public class BookingModel {
     protected String retrieveOutput(ResultSet rs){
         return rs.toString();
     }
+
     protected static void cancelBooking(){}
 
     private String handleQueryRequest(ResultSet result_set){
@@ -366,6 +381,14 @@ public class BookingModel {
 
     public void setFlightIds(int[] flight_ids) {
         this.flight_ids = flight_ids;
+    }
+
+    public int getAncillaryPkgID() {
+        return ancillary_pkg_id;
+    }
+
+    public void setAncillaryPkgID(int ancillary_pkg_id) {
+        this.ancillary_pkg_id = ancillary_pkg_id;
     }
 
     public Ancillary[] getAncillaries() {
