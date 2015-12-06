@@ -25,7 +25,9 @@ import java.util.Map;
 
 public class FlightModel {
     private int flight_id;
+    private String start_abbrev;
     private String start_location;
+    private String destination_abbrev;
     private String destination_location;
     private String flight_datetime;
     private ArrayList<String> available_seats;
@@ -180,4 +182,19 @@ public class FlightModel {
     protected void setMiles(int miles){ this.miles = miles; }
     protected int getMiles(){ return this.miles; }
 
+    public String getDestinationShort() {
+        return destination_abbrev;
+    }
+
+    public void setDestinationShort(String destination_abbrev) {
+        this.destination_abbrev = destination_abbrev;
+    }
+
+    public String getStartShort() {
+        return start_abbrev;
+    }
+
+    public void setStartShort(String start_abbrev) {
+        this.start_abbrev = start_abbrev;
+    }
 }

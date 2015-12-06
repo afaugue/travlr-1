@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class BookingsFlowController {
     BookingsFlowView bookings_view;
@@ -43,6 +45,27 @@ public class BookingsFlowController {
         bookings_view.continue_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 boolean check_status = true;
+                String newline = System.getProperty("line.separator");
+
+                if (bookings_view.getBookingState() == 1) {
+                    System.out.println(bookings_view.getDiscount());
+                    if (!(bookings_view.getDiscount().trim().equals("")) ) {
+                        if (bookings_view.getDiscount().equals(parent_frame.used_disc_coupons[0])) {
+                            JOptionPane.showMessageDialog(parent_container, "The coupon you have "
+                                    + "entered is not valid.");
+                        }
+                        for (int i = 0; i <= 5; i++) {
+                            if (parent_frame.disc_coupons[i].equals(bookings_view.getDiscount())) {
+                                parent_frame.used_disc_coupons[0] = parent_frame.disc_coupons[i];
+                                JOptionPane.showMessageDialog(parent_container, "You have entered a valid "
+                                        + "coupon" + newline + "New price:" + bookings_view.buildDiscountPriceSum());
+                            } else if (i == 5 && !parent_frame.used_disc_coupons[0].equals(bookings_view.getDiscount())) {
+                                JOptionPane.showMessageDialog(parent_container, "The coupon you have "
+                                        + "entered is not valid.");
+                            }
+                        }
+                    }
+                }
                 if (bookings_view.getBookingState() == 2){
                 /*    booking_model.setSeatNumbers(bookings_view.getSeatNumbers());
                     booking_model.setBags(bookings_view.getBags());

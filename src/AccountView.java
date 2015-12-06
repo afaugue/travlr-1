@@ -6,7 +6,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class AccountView extends JPanel{
     private String display;
-    private ArrayList<HashMap<String,String>> accout_data = new ArrayList<>();
+    private ArrayList<HashMap<String,String>> account_data = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> bookings_data = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> flights_data = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> cards_data = new ArrayList<>();
 
     private AccountModel acct_model;
 
@@ -244,40 +247,197 @@ public class AccountView extends JPanel{
     
     protected JPanel accountInfo() {
         info_pane = new JPanel();
+        info_pane.setLayout(new BoxLayout(info_pane, BoxLayout.Y_AXIS));
         acct_model = Travlr.account_flow.account_model;
         JScrollPane scrollPane;
         JTable table = new JTable();
         DefaultTableModel models;
         Vector columnNames = new Vector();
         Vector data = new Vector();
-        try {
-            columnNames.add("first_name");
-            columnNames.add("last_name");
-            columnNames.add("email");
-            columnNames.add("username");
-            columnNames.add("reward_miles");
 
-            Vector info = new Vector();
-            info.add(acct_model.getFirstName());
-            info.add(acct_model.getLastName());
-            info.add(acct_model.getEmail());
-            info.add(acct_model.getUsername());
-            info.add(acct_model.getRewardMiles());
+        columnNames.add("first_name");
+        columnNames.add("last_name");
+        columnNames.add("email");
+        columnNames.add("username");
+        columnNames.add("reward_miles");
 
-            data.add(info);
+        Vector info = new Vector();
+        info.add(acct_model.getFirstName());
+        info.add(acct_model.getLastName());
+        info.add(acct_model.getEmail());
+        info.add(acct_model.getUsername());
+        info.add(acct_model.getRewardMiles());
 
-            models = new DefaultTableModel(data, columnNames);
-            table.setModel(models);
-            for (int i=0; i<columnNames.size(); i++){
-                table.getColumn(columnNames.get(i)).setPreferredWidth(400);
-            }
-            scrollPane = new JScrollPane(table);
-            info_pane.add(scrollPane);
+        data.add(info);
+
+        models = new DefaultTableModel(data, columnNames);
+        table.setModel(models);
+        for (int i=0; i<columnNames.size(); i++){
+            table.getColumn(columnNames.get(i)).setPreferredWidth(400);
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        table.setPreferredSize(new Dimension(1500,200));
+        table.setGridColor(Color.BLACK);
+        scrollPane = new JScrollPane(table);
+        scrollPane.setSize(new Dimension (1500, 200));
+
+        info_pane.add(scrollPane);
+
+        info_pane.add(accountBookingsDisplay());
+        info_pane.add(accountFlightsDisplay());
+
         return info_pane;
+    }
+
+    protected JScrollPane accountBookingsDisplay(){
+        JScrollPane bookings_scroll;
+        JPanel bookings_panel = new JPanel();
+
+        bookings_panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        for (int i=0; i<bookings_data.size(); i++) {
+            System.out.println(bookings_data.toString());
+            HashMap<String, String> data = bookings_data.get(i);
+            bookings_panel.add(generateBookingSummary(data, i), gbc);
+            gbc.gridy++;
+        }
+
+        bookings_panel.setPreferredSize(new Dimension(400,400));
+
+        bookings_scroll = new JScrollPane(bookings_panel);
+        bookings_scroll.setPreferredSize(new Dimension(400, 400));
+
+        return bookings_scroll;
+    }
+
+    private JPanel generateBookingSummary(Map<String, String> data_map, int position){
+        JPanel booking_panel = new JPanel();
+        JLabel bags = new JLabel(data_map.get("bags"));
+        JLabel booking_id = new JLabel(data_map.get("booking_id"));
+        JLabel seats = new JLabel(data_map.get("seats"));
+        JLabel personal_info_id = new JLabel(data_map.get("pinfo_id"));
+        JLabel ancillary_id = new JLabel(data_map.get("additions_id"));
+
+        booking_id.setBorder(empty_border);
+        seats.setBorder(empty_border);
+        bags.setBorder(empty_border);
+        personal_info_id.setBorder(empty_border);
+        ancillary_id.setBorder(empty_border);
+
+        booking_panel.add(booking_id);
+        booking_panel.add(seats);
+        booking_panel.add(bags);
+        booking_panel.add(personal_info_id);
+        booking_panel.add(ancillary_id);
+        booking_panel.setBorder(inner_border);
+
+        return booking_panel;
+    }
+
+    protected JScrollPane accountFlightsDisplay(){
+        JScrollPane flights_scroll;
+        JPanel flights_panel = new JPanel();
+
+        flights_panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        for (int i=0; i<flights_data.size(); i++) {
+            HashMap<String, String> data = flights_data.get(i);
+            flights_panel.add(generateFlightSummary(data, i), gbc);
+            gbc.gridy++;
+        }
+
+        flights_panel.setPreferredSize(new Dimension(400,400));
+
+        flights_scroll = new JScrollPane(flights_panel);
+        flights_scroll.setPreferredSize(new Dimension(400, 400));
+
+        return flights_scroll;
+    }
+
+    private JPanel generateFlightSummary(HashMap<String,String> data_map, int position){
+        JPanel flight_panel = new JPanel();
+        JLabel flight_id = new JLabel(data_map.get("flight_id"));
+        JLabel src_short = new JLabel(data_map.get("source"));
+        JLabel src_long = new JLabel(data_map.get("source_long"));
+        JLabel dest_short = new JLabel(data_map.get("destination"));
+        JLabel dest_long = new JLabel(data_map.get("destination_long"));
+        JLabel date_time = new JLabel(data_map.get("datetime"));
+        JLabel miles = new JLabel(data_map.get("miles"));
+
+        flight_id.setBorder(empty_border);
+        src_short.setBorder(empty_border);
+        src_long.setBorder(empty_border);
+        dest_short.setBorder(empty_border);
+        dest_long.setBorder(empty_border);
+        date_time.setBorder(empty_border);
+        miles.setBorder(empty_border);
+
+        flight_panel.add(flight_id);
+        flight_panel.add(src_short);
+        flight_panel.add(dest_short);
+        flight_panel.add(date_time);
+        flight_panel.add(miles);
+        flight_panel.setBorder(inner_border);
+
+        return flight_panel;
+    }
+
+    public ArrayList<HashMap<String, String>> getAccountData() {
+        return account_data;
+    }
+
+    public void setAccountData(ArrayList<HashMap<String, String>> account_data) {
+        this.account_data = account_data;
+    }
+
+    public void appendAccountData(HashMap<String, String> account_data) {
+        ArrayList<HashMap<String, String>> updated_data= this.getAccountData();
+        updated_data.add(account_data);
+        this.setAccountData(updated_data);
+    }
+
+    public ArrayList<HashMap<String, String>> getBookingsData() {
+        return bookings_data;
+    }
+
+    public void setBookingsData(ArrayList<HashMap<String, String>> bookings_data) {
+        this.bookings_data = bookings_data;
+    }
+
+    public void appendBookingsData(HashMap<String, String> booking_data) {
+        ArrayList<HashMap<String, String>> updated_data= this.getBookingsData();
+        updated_data.add(booking_data);
+        this.setBookingsData(updated_data);
+    }
+
+    public ArrayList<HashMap<String, String>> getFlightsData() {
+        return flights_data;
+    }
+
+    public void setFlightsData(ArrayList<HashMap<String, String>> flights_data) {
+        this.flights_data = flights_data;
+    }
+
+    public void appendFlightsData(HashMap<String, String> flight_data) {
+        ArrayList<HashMap<String, String>> updated_data= this.getFlightsData();
+        updated_data.add(flight_data);
+        this.setFlightsData(updated_data);
+    }
+
+    public ArrayList<HashMap<String, String>> getCardsData() {
+        return cards_data;
+    }
+
+    public void setCardsData(ArrayList<HashMap<String, String>> cards_data) {
+        this.cards_data = cards_data;
+    }
+
+    public void appendCardsData(HashMap<String, String> card_data) {
+        ArrayList<HashMap<String, String>> updated_data= this.getCardsData();
+        updated_data.add(card_data);
+        this.setCardsData(updated_data);
     }
 }

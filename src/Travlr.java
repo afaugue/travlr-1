@@ -17,6 +17,10 @@ public class Travlr extends JFrame {
     protected static BookingsFlowController bookings_flow;
     protected static AccountController account_flow;
 
+    public String[] disc_coupons = {"discount25","25off","travlr25","travlLess",
+        "25less","payless25"};
+    public String[] used_disc_coupons = {""};
+
     protected static boolean active_account_session = false;
 
     /*******************************************************************

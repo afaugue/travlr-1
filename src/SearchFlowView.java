@@ -217,15 +217,25 @@ public class SearchFlowView extends JPanel {
                 matching_values = true;
             }
         }
-        flights_panel.getViewport().add(fp);
 
         flights_panel.setPreferredSize(new Dimension(600,600));
-       // flights_panel.add(fp);
 
         if (!matching_values){
-            flights_panel.getViewport().add(new JLabel("No Flights Matching Your Criteria"));
+            JPanel label_panel = new JPanel();
+            label_panel.setBorder(inner_border);
+            label_panel.add(new JLabel("No Flights Matching Your Criteria"));
+            gbc.fill = GridBagConstraints.BOTH;
+            fp.add(label_panel, gbc);
+            gbc.gridy++;
+            for(int i=0; i < flight_data.size(); i++){
+                Map<String, String> data = new HashMap(flight_data.get(i));
+                fp.add(generateFlightListing(data, i), gbc);
+                gbc.gridy++;
+            }
+
         }
-       //flights_panel = new JScrollPane(fp);
+        flights_panel = new JScrollPane(fp);
+        flights_panel.setPreferredSize(new Dimension(600,600));
 
         return flights_panel;
     }
@@ -298,9 +308,7 @@ public class SearchFlowView extends JPanel {
 
     private Boolean dateFilter(String input_date){
         // Initialize Selected Date Variables
-        System.out.println(this.getDate());
         Date selected_date = parseDate(this.getDate() + " " + this.getTime());
-        System.out.println(selected_date);
         Calendar date1 = dateToCalendar(selected_date);
 
         // Initialize Flight Date Variables
