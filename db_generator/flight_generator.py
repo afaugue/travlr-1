@@ -39,7 +39,7 @@ def generateEntries(conn):
         airport_ids.append(row[0])
 
 
-    for i in range(1,100000):
+    for i in range(1,1000000):
         print (i)
         bag = float(random.randint(1500, 10000))/100
         seat = float(random.randint(1500,10000))/100

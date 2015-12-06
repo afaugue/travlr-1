@@ -14,7 +14,8 @@ import java.net.URL;
 public class ImagePanel extends JPanel {
 
     private BufferedImage image;
-    protected JButton account_btn, info_btn;
+    protected JButton account_btn, info_btn, home_btn;
+    protected JPanel btn_panel;
     protected Travlr parent_frame = Travlr.main_frame;
     protected AccountView acct_view;
 
@@ -38,12 +39,14 @@ public class ImagePanel extends JPanel {
     }
 
     protected void addAccountButton(Boolean session_active_status){
-        JPanel btn_panel = new JPanel();
+        btn_panel = new JPanel();
         btn_panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         this.setLayout(new BorderLayout());
+        account_btn = new JButton("Logout");
+        info_btn = new JButton("User Information");
+        home_btn = new JButton("Home");
         if (session_active_status){
-            account_btn = new JButton("Logout");
-            info_btn = new JButton("User Information");
+            btn_panel.add(home_btn);
             btn_panel.add(info_btn);
         } else {
             account_btn = new JButton("Login");
@@ -60,23 +63,32 @@ public class ImagePanel extends JPanel {
             public void actionPerformed(ActionEvent actionEvent) {
                 if (parent_frame.getAccountSessionStatus()){
                     parent_frame.setAccountSessionStatus(false);
-                    account_btn.setText("Logout");
+                    account_btn.setText("Login");
                     parent_frame.account_flow = null;
+                    btn_panel.removeAll();
+                    btn_panel.add(account_btn);
+                    btn_panel.revalidate();
+                    btn_panel.repaint();
+
                     parent_frame.returnSearchFlow();
                     parent_frame.revalidate();
                     parent_frame.repaint();
                 } else {
                     parent_frame.startAccountFlow();
-                    parent_frame.setAccountSessionStatus(true);
-                    account_btn.setText("Login");
-                    parent_frame.revalidate();
-                    parent_frame.repaint();
                 }
             }
         });
+
         info_btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
                 parent_frame.enterAccountFlow();
+            }
+        });
+
+        home_btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                parent_frame.returnSearchFlow();
             }
         });
         

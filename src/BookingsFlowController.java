@@ -112,10 +112,10 @@ public class BookingsFlowController {
                 }
                 if(check_status) {
                     bookings_view.setBookingState(bookings_view.getBookingState() + 1);
+                    bookings_view.updateView();
+                    bookings_view.revalidate();
+                    bookings_view.repaint();
                 }
-                bookings_view.updateView();
-                bookings_view.revalidate();
-                bookings_view.repaint();
             }
         });
     }

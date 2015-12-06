@@ -77,17 +77,10 @@ public class Travlr extends JFrame {
             frame_content.remove(i);
         }
         frame_content.add(search_flow.search_view, getViewConstraints());
-        frame_content.validate();
+        frame_content.revalidate();
         frame_content.repaint();
     }
     
-    public void enterAccountFlow() {
-        frame_content.remove(1);
-        frame_content.add(account_flow.account_view.accountInfo(), getViewConstraints());
-        frame_content.validate();
-        frame_content.repaint();
-    }
-
     public void startBookingsFlow(FlightModel f1){
         frame_content.remove(search_flow.search_view);
         bookings_flow = new BookingsFlowController(main_frame, frame_content, f1);
@@ -111,6 +104,13 @@ public class Travlr extends JFrame {
         account_flow = new AccountController(main_frame, frame_content);
         frame_content.add(account_flow.account_view, getViewConstraints());
         frame_content.revalidate();
+        frame_content.repaint();
+    }
+
+    public void enterAccountFlow() {
+        frame_content.remove(1);
+        frame_content.add(account_flow.account_view.accountInfo(), getViewConstraints());
+        frame_content.validate();
         frame_content.repaint();
     }
 

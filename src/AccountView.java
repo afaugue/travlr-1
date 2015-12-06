@@ -257,6 +257,9 @@ public class AccountView extends JPanel{
             
             models = new DefaultTableModel(data, columnNames);
             table.setModel(models);
+            for (int i=0; i<columnNames.size(); i++){
+                table.getColumn(columnNames.get(i)).setPreferredWidth(400);
+            }
             scrollPane = new JScrollPane(table);
             info_pane.add(scrollPane);
         }

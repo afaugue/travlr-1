@@ -59,6 +59,7 @@ public class AccountController {
                         JOptionPane.showMessageDialog(account_view.account_pane, "Username already exists");
                     }
                 }
+                parent_frame.startAccountFlow();
             }  
         });
         
@@ -81,6 +82,7 @@ public class AccountController {
                 password = account_view.password_input.getText();
                 boolean success = account_model.checkLogin(login, password);
                 if(success) {
+                    parent_frame.returnSearchFlow();
                     JOptionPane.showMessageDialog(account_view.login_pane, "Welcome back " + login);
                     parent_frame.setAccountSessionStatus(true);
                     parent_frame.logo_panel.removeAll();

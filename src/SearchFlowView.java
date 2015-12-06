@@ -45,7 +45,8 @@ public class SearchFlowView extends JPanel {
     // Global Selection Variables
     private JComboBox src_select, dest_select;
     private JPanel empty_panel;
-    private JPanel date_flights_panel;
+    //private JPanel date_flights_panel;
+    private JScrollPane date_flights_panel, scroll_pane;
 
     // Global Border Variables
     private Border empty_border = BorderFactory.createEmptyBorder(10,10,10,10);
@@ -91,6 +92,7 @@ public class SearchFlowView extends JPanel {
         }
         this.revalidate();
         this.repaint();
+
     }
 
     /*******************************************************************
@@ -177,23 +179,26 @@ public class SearchFlowView extends JPanel {
         gbc.gridy = 0;
 
         JPanel btn_panel = new JPanel();
-        //calendar_icon = resizeIcon(calendar_icon, 30, 30);
-        //calendar_btn = new JButton(calendar_icon);
-        //btn_panel.add(calendar_btn);
-        //content_pane.add(btn_panel);
         gbc.gridy = 2;
-        content_pane.add(generateFlightsPane(), gbc);
+        scroll_pane = generateFlightsPane();
+        content_pane.add(scroll_pane, gbc);
 
         return content_pane;
     }
 
-    private JPanel generateFlightsPane(){
+    //private JPanel generateFlightsPane(){
+    private JScrollPane generateFlightsPane(){
 
-        JPanel flights_panel = new JPanel();
-        flights_panel.setLayout(new GridBagLayout());
+        //JPanel flights_panel = new JPanel();
+        JScrollPane flights_panel = new JScrollPane();
+        JPanel fp = new JPanel();
+        //fp.setPreferredSize(new Dimension(600,600));
+        //flights_panel = new JScrollPane(fp);
+        fp.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         Boolean matching_values = false;
         gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         for(int i=0; i < flight_data.size(); i++){
             Map<String, String> data = new HashMap(flight_data.get(i));
@@ -203,19 +208,24 @@ public class SearchFlowView extends JPanel {
 
             // Create Displays for Matching Flights
             if (date_filter){
-                content_pane.add( generateFlightListing(data, i), gbc);
+                fp.add(generateFlightListing(data, i), gbc);
                 gbc.gridy++;
                 matching_values = true;
             } else if (parseDate(this.getDate()+" "+this.getTime()) == null){
-                content_pane.add( generateFlightListing(data, i), gbc);
+                fp.add(generateFlightListing(data, i), gbc);
                 gbc.gridy++;
                 matching_values = true;
             }
         }
+        flights_panel.getViewport().add(fp);
+
+        flights_panel.setPreferredSize(new Dimension(600,600));
+       // flights_panel.add(fp);
 
         if (!matching_values){
-            flights_panel.add(new JLabel("No Flights Matching Your Criteria"));
+            flights_panel.getViewport().add(new JLabel("No Flights Matching Your Criteria"));
         }
+       //flights_panel = new JScrollPane(fp);
 
         return flights_panel;
     }
@@ -288,12 +298,15 @@ public class SearchFlowView extends JPanel {
 
     private Boolean dateFilter(String input_date){
         // Initialize Selected Date Variables
+        System.out.println(this.getDate());
         Date selected_date = parseDate(this.getDate() + " " + this.getTime());
+        System.out.println(selected_date);
         Calendar date1 = dateToCalendar(selected_date);
 
         // Initialize Flight Date Variables
         Date flight_date = parseDate(input_date);
         Calendar date2 = dateToCalendar(flight_date);
+
 
         if ( date1 != null && date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR) &&
                 date1.get(Calendar.DAY_OF_YEAR) == date2.get(Calendar.DAY_OF_YEAR)) {
@@ -315,7 +328,7 @@ public class SearchFlowView extends JPanel {
     }
 
     protected Date parseDate(String input_date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
         Date parsed_date = null;
         try {
             parsed_date = sdf.parse(input_date);
