@@ -90,7 +90,7 @@ public class AccountModel {
                 booking_result.setEmail(rs.getString("p_email"));
 
                 booking_result.setBags(Integer.parseInt(rs.getString("b_bags")));
-                booking_result.setAncillaryPkgID(Integer.parseInt(rs.getString("b_ancillaries")));
+                //booking_result.setAncillaryPkgID(Integer.parseInt(rs.getString("b_ancillaries")));
 
                 collected_bookings.add(booking_result);
             }
@@ -103,6 +103,7 @@ public class AccountModel {
     private void queryAccountBookingsFlights(int account_id){
         ArrayList<FlightModel> collected_flights = new ArrayList<>();
         String query_string = ( "select f.id as f_id, air1.short_name as a1_short, "+
+                                "air1.long_name as a1_long, air2.long_name as a2_long, "+
                                 "air2.short_name as a2_short, f.dt as f_dt, f.miles as f_miles, "+
                                 "f.avail_seats as f_avail, f.bag_price as f_bprice, f.seat_price as f_sprice "+
                                 "from accounts as a "+
@@ -122,8 +123,10 @@ public class AccountModel {
             while(rs.next()){
                 FlightModel flight_result = new FlightModel();
                 flight_result.setFlightID(Integer.parseInt(rs.getString("f_id")));
-                flight_result.setStartLocation(rs.getString("a1_short"));
-                flight_result.setDestLocation(rs.getString("a2_short"));
+                flight_result.setStartShort(rs.getString("a1_short"));
+                flight_result.setStartShort(rs.getString("a1_long"));
+                flight_result.setDestinationShort(rs.getString("a2_short"));
+                flight_result.setDestLocation(rs.getString("a2_long"));
                 flight_result.setDateTime(rs.getString("f_dt"));
                 flight_result.setMiles(Integer.parseInt(rs.getString("f_miles")));
                 flight_result.setSeatPrice(Double.parseDouble(rs.getString("f_sprice")));
@@ -334,6 +337,10 @@ public class AccountModel {
 
     public void setFlights(ArrayList<FlightModel> flights) {
         this.flights = flights;
+    }
+
+    public ArrayList<BookingModel>getBookings() {
+        return bookings;
     }
 
     public void setBookings(ArrayList<BookingModel> bookings) {

@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class BookingsFlowView extends JPanel {
     private ArrayList<FlightModel> flights = new ArrayList();
@@ -30,6 +31,7 @@ public class BookingsFlowView extends JPanel {
 
     protected JButton return_btn, continue_btn;
     protected InfoPanel info_panel;
+    protected JTextField disc_info;
 
     private String[] bookingSummary;
     protected CreditCardController credit_card_controller;
@@ -87,8 +89,12 @@ public class BookingsFlowView extends JPanel {
         } else if (this.booking_state == 3) {
             pageThreeView();
         } else if (this.booking_state == 4) {
+            GridBagConstraints gbc = new GridBagConstraints();
+            this.setLayout(new GridBagLayout());
+
+
             this.credit_card_controller = null;
-            pageFourView();
+            pageFourView();//, gbc);
         }
     }
 
@@ -114,6 +120,8 @@ public class BookingsFlowView extends JPanel {
             right_gbc.gridy++;
             System.out.println(flights.get(i).toString());
         }
+        outer_panel.add(buildDiscount(),right_gbc);
+        right_gbc.gridy++;
         outer_panel.add(buildTax(),right_gbc);
         right_gbc.gridy++;
         outer_panel.add(buildPriceSum(), right_gbc);
@@ -154,6 +162,25 @@ public class BookingsFlowView extends JPanel {
 
         return tax_sum;
     }
+    
+    private JPanel buildDiscount(){
+        JPanel disc_sum = new JPanel();
+
+        JLabel disc_label = new JLabel("Discount Code:");
+        disc_info = new JTextField(10);
+
+        disc_label.setBorder(empty_border);
+        
+        disc_sum.add(disc_label);
+        disc_sum.add(disc_info);
+
+        return disc_sum;
+    }
+    
+    public String getDiscount(){
+        String Disc = disc_info.getText();
+        return Disc;
+    }
 
     private JPanel buildPriceSum(){
         JPanel price_summary = new JPanel();
@@ -172,7 +199,21 @@ public class BookingsFlowView extends JPanel {
 
         return price_summary;
     }
+    
+    public String buildDiscountPriceSum(){
+        DecimalFormat decFor = new DecimalFormat("0.00");
 
+        Double total_price = 0.0;
+        for (int i=0; i<flights.size(); i++){
+            System.out.print(flights.size());
+            total_price += (flights.get(i).getSeatPrice());
+            total_price += (flights.get(i).getSeatPrice() * 0.1);
+        }
+        double disco = total_price * .25;
+        total_price -= disco;   
+        flights.get(0).setSeatPrice(total_price);
+        return decFor.format(total_price);
+    }
 
     private JPanel generateFlightPanel(FlightModel input_flight){
         JPanel flight_panel = new JPanel();
@@ -195,6 +236,30 @@ public class BookingsFlowView extends JPanel {
 
         return flight_panel;
     }
+
+    private JPanel generateItinerary(FlightModel input_flight){
+        JPanel itinerary_panel = new JPanel();
+
+        JLabel flight_date = new JLabel("Purchase Date: " + input_flight.getDateTime());
+        JLabel flight_id = new JLabel("Flight ID#: " + input_flight.getFlightID());
+        JLabel flight_sourceDestination = new JLabel("Departure: " + input_flight.getStartLocation() + "Arrive: " + input_flight.getDestLocation());
+
+
+        flight_date.setBorder(empty_border);
+        flight_id.setBorder(empty_border);
+        flight_sourceDestination.setBorder(empty_border);
+        //flight_destination.setBorder(empty_border);
+
+        itinerary_panel.add(flight_date);
+        itinerary_panel.add(flight_id);
+        itinerary_panel.add(flight_sourceDestination);
+        //itinerary_panel.add(flight_destination);
+        itinerary_panel.setBorder(inner_border);
+
+        return itinerary_panel;
+
+    }
+
 
     private JPanel pageTwoView() {
         JPanel outer_panel = new JPanel();
@@ -245,13 +310,17 @@ public class BookingsFlowView extends JPanel {
     }
 
     private void pageFourView(){
-        this.setLayout(new GridBagLayout());
+        JPanel this_panel = new JPanel();
+        this_panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.gridx = 0;
         for(int i=0; i<bookingSummary.length; i++){
             JLabel summary_label = new JLabel(bookingSummary[i]);
-            this.add(summary_label, gbc);
+            this_panel.add(summary_label, gbc);
         }
+
+        this.add(this_panel);
         this.revalidate();
         this.repaint();
     }

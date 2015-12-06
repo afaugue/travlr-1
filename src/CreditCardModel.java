@@ -11,11 +11,14 @@ import java.sql.*;
 
 public class CreditCardModel
 {
+    int cardID;
     String cardNum;
     String cardCVV;
     String cardType;
     String nameOnCard;
     String cardExpiration;
+
+    protected CreditCardModel(){}
 
 	protected static void cardProcess(){}
 	/*
@@ -85,6 +88,63 @@ public class CreditCardModel
             }
         }
         return true;
+    }
+
+    public String getMaskedCardNum(){
+        String return_string = this.getCardCVV();
+        return_string.replaceAll(
+                return_string.substring(0,return_string.length()-4),
+                "XXXX-XXXX-XXXX-"
+        );
+        return return_string;
+    }
+
+    public int getCardID() {
+        return cardID;
+    }
+
+    public void setCardID(int cardID) {
+        this.cardID = cardID;
+    }
+
+    public String getCardNum() {
+        return cardNum;
+    }
+
+    public void setCardNum(String cardNum) {
+        this.cardNum = cardNum;
+    }
+
+    public String getCardCVV() {
+        return cardCVV;
+    }
+
+    public void setCardCVV(String cardCVV) {
+        this.cardCVV = cardCVV;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getNameOnCard() {
+        return nameOnCard;
+    }
+
+    public void setNameOnCard(String nameOnCard) {
+        this.nameOnCard = nameOnCard;
+    }
+
+    public String getCardExpiration() {
+        return cardExpiration;
+    }
+
+    public void setCardExpiration(String cardExpiration) {
+        this.cardExpiration = cardExpiration;
     }
 }
 
